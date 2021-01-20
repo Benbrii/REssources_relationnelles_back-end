@@ -88,22 +88,7 @@ export const autorisation = (req, res, next) => {
 export const firewallWhitelist = url => {
     var f = false;
     const w = [
-        /^\/user\/user/g,
-        /^\/user\/allusers/g,
-        /^\/user\/login/g,
-        /^\/user\/logout/g,
-        /^\/user\/register/g,
-        /^\/service\/allservices/g,
-        /^\/service\/documents/g,
-        /^\/service\/byId/g,
-        /^\/service\/alldocuments/g,
-        /^\/upload/g,
-        /^\/document\/delete/g,
-        /^\/document\/modifyprogress/g,
-        /^\/document\/validate/g,
-        /^\/document\/refuse/g,
-        /^\/mail\/send/g,
-        /^\/advice/g
+        /^\/test/g,
     ];
 
     w.map(r => {
@@ -119,22 +104,7 @@ export const firewallAutorisation = url => {
     var f = false;
 
     const autorisations = [
-        /^\/user\/user/g,
-        /^\/user\/allusers/g,
-        /^\/user\/login/g,
-        /^\/user\/logout/g,
-        /^\/user\/register/g,
-        /^\/service\/allservices/g,
-        /^\/service\/documents/g,
-        /^\/service\/byId/g,
-        /^\/service\/alldocuments/g,
-        /^\/upload/g,
-        /^\/document\/delete/g,
-        /^\/document\/modifyprogress/g,
-        /^\/document\/validate/g,
-        /^\/document\/refuse/g,
-        /^\/mail\/send/g,
-        /^\/advice/g
+        /^\/test/g,
     ];
 
     autorisations.map(r => {

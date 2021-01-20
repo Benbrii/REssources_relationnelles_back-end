@@ -5,7 +5,7 @@ import logger from "morgan";
 import cors from "cors";
 import _ from "lodash";
 
-// import { init, autorisation } from "./utils/auth";
+import { init, autorisation } from "./utils/auth";
 
 const bodyParser = require("body-parser");
 const indexRouter = require("./routes/index");
@@ -15,7 +15,8 @@ const app = express();
 app.use(
     cors({
         origin: [
-            "*"
+            "http://localhost:3000",
+            "http://localhost:3000/test"
         ],
         allowedHeaders: [
             "Content-Type",
@@ -34,7 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// app.use((req, res, next) => init(req, res, next));
+app.use((req, res, next) => init(req, res, next));
 
 app.use("/", indexRouter);
 

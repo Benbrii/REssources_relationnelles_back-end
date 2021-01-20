@@ -1,15 +1,18 @@
-import { Pool } from "pg";
-
 require('dotenv').config();
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "ressources_relationnelles"
 });
 
-pool.connect();
+con.connect(function (err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
 
 /**
  * Insert query
@@ -19,7 +22,7 @@ pool.connect();
  */
 
 export const insert = (request, values, callback) => {
-  pool.connect(function (err, client, done) {
+  con.connect(function (err, client, done) {
     client.query(request, values, function (err, result) {
       done();
       callback(result, err);
@@ -34,5 +37,5 @@ export const insert = (request, values, callback) => {
  * @param {function} callback
  */
 export const query = (text, params, callback) => {
-  return pool.query(text, params, callback);
+  return con.query(text, params, callback);
 };
