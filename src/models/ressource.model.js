@@ -1,6 +1,6 @@
 import { query } from "../utils/database";
 
-export const getThisTest = () => {
+export const getAllRessource = () => {
     return new Promise((resolve, reject) => {
         query(
             `SELECT * FROM ressource`,

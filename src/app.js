@@ -16,7 +16,7 @@ app.use(
     cors({
         origin: [
             "http://localhost:3000",
-            "http://localhost:3000/test"
+            "http://localhost:3000/ressource"
         ],
         allowedHeaders: [
             "Content-Type",
