@@ -28,7 +28,7 @@ export const insert = (request, values, callback) => {
     });
   })
 }
- 
+
 /**
  * Other query's (select, update, delete)
  * @param {string} text
