@@ -23,13 +23,12 @@ con.connect(function (err) {
 
 export const insert = (request, values, callback) => {
   con.connect(function (err, client, done) {
-    client.query(request, values, function (err, result) {
-      done();
+    con.query(request, values, function (err, result) {
       callback(result, err);
     });
-  });
-};
-
+  })
+}
+ 
 /**
  * Other query's (select, update, delete)
  * @param {string} text
