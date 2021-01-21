@@ -89,7 +89,7 @@ export const firewallWhitelist = url => {
     var f = false;
     const w = [
         /^\/cloud/g,
-        /^\/ressource\/ressource/g,
+        /^\/ressources\/ressource/g,
     ];
 
     w.map(r => {
@@ -106,7 +106,7 @@ export const firewallAutorisation = url => {
 
     const autorisations = [
         /^\/cloud/g,
-        /^\/ressource\/ressource/g,
+        /^\/ressources\/ressource/g,
     ];
 
     autorisations.map(r => {
