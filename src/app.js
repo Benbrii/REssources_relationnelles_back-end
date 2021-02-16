@@ -31,7 +31,8 @@ app.use(
             "https://ressourcesrelationnelles.herokuapp.com/ressource",
             "https://ressourcesrelationnelles.herokuapp.com/ressources",
             "https://ressourcesrelationnelles.herokuapp.com//ressource",
-            "https://ressourcesrelationnelles.herokuapp.com//ressources"
+            "https://ressourcesrelationnelles.herokuapp.com//ressources",
+            "https://ressourcesrelationnelles.herokuapp.com//ressources/ressource",
         ],
         allowedHeaders: [
             "Content-Type",
