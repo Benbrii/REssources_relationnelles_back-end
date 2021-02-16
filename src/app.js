@@ -69,10 +69,9 @@ app.post('/upload', upload.single('selectedFile'), (req, res) => {
 
     const uniqueFilename = req.file.originalname;
 
-    let { title, theme, type, description } = req.body;
+    let { title, theme, type, description, privee } = req.body;
 
     let todayDate = new Date().toLocaleDateString("fr-FR");
-    console.log(todayDate)
 
     cloudinary.uploader.upload(
         // file is required ofc
@@ -88,8 +87,7 @@ app.post('/upload', upload.single('selectedFile'), (req, res) => {
             // return image details
             const newDocURL = file.url;
             //const cloudID = file.public_id;
-            console.log(file);
-            let poste = addPoste({ title, theme, newDocURL, type, description, todayDate });
+            let poste = addPoste({ title, theme, newDocURL, type, description, todayDate, privee });
             res.json(poste);
         }
     )

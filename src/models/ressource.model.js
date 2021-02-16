@@ -27,11 +27,11 @@ export const getAllRessource = () => {
     });
 };
 
-export const addPoste = ({ title, theme, newDocURL, type, description, todayDate }) => {
+export const addPoste = ({ title, theme, newDocURL, type, description, todayDate, privee }) => {
     return new Promise((resolve, reject) => {
         con.query(
-            `INSERT INTO ressource(titre, theme, lien, date_envoie, type_ressource, id_compte)
-            VALUES ('${title}', '${theme}', '${newDocURL}', '2021-02-15', '${type}', '1')`,
+            `INSERT INTO ressource(titre, theme, lien, date_envoie, type_ressource, id_compte, description, private)
+            VALUES ('${title}', '${theme}', '${newDocURL}', '${todayDate}', '${type}', '1', '${description}', '${privee}')`,
             (error, result) => {
                 if (error) reject(error);
                 resolve(result);
