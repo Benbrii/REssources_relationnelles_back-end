@@ -25,7 +25,10 @@ app.use(
             "http://localhost:3000/upload",
             "https://ressourcesrelationnelles.netlify.app",
             "https://ressourcesrelationnelles.netlify.app/upload",
-            "https://ressourcesrelationnelles.netlify.app/ressource"
+            "https://ressourcesrelationnelles.netlify.app/ressource",
+            "https://ressourcesrelationnelles.herokuapp.com",
+            "https://ressourcesrelationnelles.herokuapp.com/upload",
+            "https://ressourcesrelationnelles.herokuapp.com/ressource"
         ],
         allowedHeaders: [
             "Content-Type",
