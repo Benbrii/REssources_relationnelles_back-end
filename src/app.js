@@ -28,7 +28,10 @@ app.use(
             "https://ressourcesrelationnelles.netlify.app/ressource",
             "https://ressourcesrelationnelles.herokuapp.com",
             "https://ressourcesrelationnelles.herokuapp.com/upload",
-            "https://ressourcesrelationnelles.herokuapp.com/ressource"
+            "https://ressourcesrelationnelles.herokuapp.com/ressource",
+            "https://ressourcesrelationnelles.herokuapp.com/ressources",
+            "https://ressourcesrelationnelles.herokuapp.com//ressource",
+            "https://ressourcesrelationnelles.herokuapp.com//ressources"
         ],
         allowedHeaders: [
             "Content-Type",
