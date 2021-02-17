@@ -94,7 +94,9 @@ export const firewallWhitelist = url => {
         /^\/ressources\/ressource/g,
 
         /^\/register/g,
-        
+        /^\/connexion/g,
+        /^\/connexion\/authControl/g,
+       
     ];
 
     w.map(r => {
@@ -116,6 +118,9 @@ export const firewallAutorisation = url => {
         /^\/ressources/g,
 
         /^\/register/g,
+        /^\/connexion/g,
+
+        /^\/connexion\/authControl/g,
     ];
 
     autorisations.map(r => {

@@ -5,5 +5,5 @@ const router = express.Router();
 router.use("/ressources", require("./ressource.route"));
 router.use("/cloud", require("./cloud.route"))
 router.use("/register",require("./register.route"))
-
+router.use("/connexion",require("./connexion.route"))
 module.exports = router;
