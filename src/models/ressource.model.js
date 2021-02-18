@@ -38,4 +38,15 @@ export const addPoste = ({ title, theme, newDocURL, type, description, todayDate
             }
         );
     });
-}
+};
+
+export const getRessourceWithId = async ({ id }) => {
+    return new Promise((resolve, reject) => {
+        query(
+            `SELECT * FROM ressource WHERE id = '${id}'`, (error, result) => {
+                if (error) reject(error);
+                resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
+            }
+        );
+    });
+};

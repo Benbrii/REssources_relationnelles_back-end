@@ -92,6 +92,8 @@ export const firewallWhitelist = url => {
 
         /^\/ressources/g,
         /^\/ressources\/ressource/g,
+        /^\/ressource/g,
+        /^\/ressource\/ressource/g,
 
         /^\/register/g,
 
@@ -116,6 +118,8 @@ export const firewallAutorisation = url => {
 
         /^\/ressources\/ressource/g,
         /^\/ressources/g,
+        /^\/ressource/g,
+        /^\/ressource\/ressource/g,
 
         /^\/register/g,
 
