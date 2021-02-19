@@ -101,7 +101,8 @@ app.post('/upload', upload.single('selectedFile'), (req, res) => {
             if (err) return res.send(err)
 
             // return image details
-            const newDocURL = file.url;
+            console.log(file);
+            const newDocURL = file.secure_url;
             //const cloudID = file.public_id;
             let poste = addPoste({ title, theme, newDocURL, type, description, todayDate, privee });
             res.json(poste);
