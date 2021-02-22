@@ -17,15 +17,15 @@ export const connexion = async (req, res) => {
      
         if (comparePassword == true){
            
-            let accessToken = jwt.sign({ email : resultAccount[0].email, authlevel : resultAccount[0].authlevel}, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256",expiresIn: process.env.ACCESS_TOKEN_LIFE });
-           
+            let accessToken = jwt.sign({ email : resultAccount[0].email, authlevel : resultAccount[0].authlevel}, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256",expiresIn:3600});
+            console.log("ACCESTOKEN:",accessToken);
             try {
 
                 res.cookie('authcookie',accessToken,{maxAge:900000,httpOnly:true}) 
 
                 if(accessToken != null){
-                    console.log("CONENCTION OK");
-                    res.json({connexion:true});
+                    console.log("CONNECTION OK");
+                    res.json({connexion:true,authlevel:resultAccount[0].authlevel});
                 }else{
                     res.json({connexion:false});
                 }
@@ -44,40 +44,45 @@ export const connexion = async (req, res) => {
 export const authControl = async (req, res) => {
 
     let accessToken = req.cookies.authcookie
-    console.log("ACCESS TOKEN",accessToken)
-
+    
     //if there is no token stored in cookies, the request is unauthorized
     if (!accessToken){
         console.log("access token vide")
-        return res.status(403).send()
+        return res.status(403).json({
+            message: 'Login Failed',
+            islogged:false
+        })
     }
 
-    let payload
-    try{
-        //use the jwt.verify method to verify the access token
-        //throws an error if the token has expired or has a invalid signature
-        console.log("SECRET TEST",process.env.ACCESS_TOKEN_SECRET)
-        try {
-            jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
-            
-            res.json({islogged:true})
-        }catch(e){
-            console.log("AUTH CONTROL ERROR",e)
-            res.json({islogged:false})
-        }
-    }
-    catch(e){
-        //if an error occured return request unauthorized error
-       
-        console.log("Le token a expiré:",e)
-        return res.status(401).send()
+    try {
+        jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+        console.log("TOKEN OK")
+        res.status(200).json({
+            message: 'Login Successful',
+            islogged:true
+            });
+ 
+    }catch(e){
+        console.log("CLEAR DISCONNECT")
+        disconnect(req,res)
+        
     }
 }
 
 export const disconnect = async (req, res) => {
-
-    res.clearCookie("authcookie");
-    
+   
+    try{
+        res.clearCookie("authcookie");
+        console.log("LOGOUT OK")
+        res.status(200).json({
+            message: 'Logout Successful',
+            islogged:false
+        })
+    }catch(e){
+        res.status(401).json({
+            message: 'Logout Failed'
+        });
+    }
 }
 
 const ComparePassword = ({password,passwordHash}) => {
@@ -89,3 +94,5 @@ const ComparePassword = ({password,passwordHash}) => {
         });
     });
 };
+
+

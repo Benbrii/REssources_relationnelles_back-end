@@ -23,7 +23,9 @@ export const insertRegister = async (req, res) => {
                 
                 //On verifie qu'une ligne a  bien était mise
                 if (register.affectedRows == 1){
+
                     res.json({ validation: true });
+                    
                 }else{
                     res.json({ validation: false,message:"OUPS...Une Erreur est survenu l'utilisateur n'a pas était enregistré" });
                     console.log("ERROR",1)
