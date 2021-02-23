@@ -23,7 +23,7 @@ export const connexion = async (req, res) => {
             console.log("ACCESTOKEN:", accessToken);
             try {
 
-                res.cookie('authcookie', accessToken, { maxAge: 900000, httpOnly: true })
+                res.cookie('authcookie', accessToken, { maxAge: new Date(Date.now() + 900000), httpOnly: true })
 
                 if (accessToken != null) {
                     console.log("CONNECTION OK");
