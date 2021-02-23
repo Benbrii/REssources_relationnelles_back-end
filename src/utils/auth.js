@@ -125,14 +125,11 @@ export const firewallAutorisation = url => {
         /^\/ressource\/ressource/g,
 
         /^\/register/g,
-<<<<<<< HEAD
 
         /^\/upload/g,
-=======
         /^\/connexion/g,
 
         /^\/authControl/g,
->>>>>>> valentin
     ];
 
     autorisations.map(r => {
