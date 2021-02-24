@@ -19,11 +19,10 @@ export const connexion = async (req, res) => {
 
         if (comparePassword == true) {
 
-            let accessToken = jwt.sign({ email: resultAccount[0].email, authlevel: resultAccount[0].authlevel }, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256", expiresIn: 3600 });
+            let accessToken = jwt.sign({ email: resultAccount[0].email, authlevel: resultAccount[0].authlevel }, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256", expiresIn: 60 * 60 });
             console.log("ACCESTOKEN:", accessToken);
             try {
-
-                res.cookie('authcookie', accessToken, { maxAge: new Date(Date.now() + 900000), httpOnly: true })
+                res.cookie('authcookie', accessToken, { maxAge: 900000, httpOnly: true })
 
                 if (accessToken != null) {
                     console.log("CONNECTION OK");
@@ -34,12 +33,16 @@ export const connexion = async (req, res) => {
 
             } catch (err) {
 
-                console.log({ connected: false, message: err });
+                console.log({ connexion: false, message: err });
             }
+        } else {
+
+            res.json({ connexion: false });
+            console.log("le mots de passe est incorrect");
         }
     } else {
-        res.json({ connected: false });
-        console.log("l'email ou le mots de passe sont incorrect");
+        res.json({ connexion: false });
+        console.log("l'email est incorrect");
     }
 }
 
