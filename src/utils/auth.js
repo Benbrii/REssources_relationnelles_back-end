@@ -89,14 +89,19 @@ export const firewallWhitelist = url => {
     var f = false;
     const w = [
         /^\/cloud/g,
-        
+
         /^\/ressources/g,
         /^\/ressources\/ressource/g,
+        /^\/ressource/g,
+        /^\/ressource\/ressource/g,
 
         /^\/register/g,
+
+        /^\/upload/g,
+
         /^\/connexion/g,
         /^\/authControl/g,
-       
+
     ];
 
     w.map(r => {
@@ -116,8 +121,12 @@ export const firewallAutorisation = url => {
 
         /^\/ressources\/ressource/g,
         /^\/ressources/g,
+        /^\/ressource/g,
+        /^\/ressource\/ressource/g,
 
         /^\/register/g,
+
+        /^\/upload/g,
         /^\/connexion/g,
 
         /^\/user/g,
