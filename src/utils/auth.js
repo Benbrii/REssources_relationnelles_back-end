@@ -100,7 +100,7 @@ export const firewallWhitelist = url => {
         /^\/upload/g,
 
         /^\/connexion/g,
-        /^\/authControl/g,
+        /^\/connexion\/authControl/g,
 
     ];
 
@@ -127,8 +127,10 @@ export const firewallAutorisation = url => {
         /^\/register/g,
 
         /^\/upload/g,
-        /^\/connexion/g,
 
+        /^\/connexion/g,
+        /^\/connexion\/authControl/g,
+        
         /^\/user/g,
     ];
 

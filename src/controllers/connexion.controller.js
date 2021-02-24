@@ -14,10 +14,10 @@ export const connexion = async (req, res) => {
         const passwordHash = resultAccount[0].motDePasse
 
         const comparePassword = await ComparePassword({password,passwordHash})
-     
+        console.log("comparePassword:",comparePassword)
         if (comparePassword == true){
            
-            let accessToken = jwt.sign({ email : resultAccount[0].email, authlevel : resultAccount[0].authlevel}, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256",expiresIn:3600});
+            let accessToken = jwt.sign({ email : resultAccount[0].email, authlevel : resultAccount[0].authlevel}, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256",expiresIn:60*60});
             console.log("ACCESTOKEN:",accessToken);
             try {
                 res.cookie('authcookie',accessToken,{maxAge:900000,httpOnly:true}) 
@@ -31,12 +31,16 @@ export const connexion = async (req, res) => {
                 
             } catch (err) {
             
-                console.log({connected:false , message:err});
+                console.log({connexion:false , message:err});
             }
+        }else{
+
+            res.json({ connexion: false });
+            console.log("le mots de passe est incorrect");
         }
     }else{
-        res.json({ connected: false });
-        console.log("l'email ou le mots de passe sont incorrect");
+        res.json({ connexion: false });
+        console.log("l'email est incorrect");
     }
 }
 
@@ -47,7 +51,7 @@ export const authControl = async (req, res) => {
     if (!accessToken){
         console.log("access token vide")
         return res.status(403).json({
-            message: 'Login Failed',
+            message: 'Unautorized',
             islogged:false
         })
     }
@@ -87,6 +91,7 @@ const ComparePassword = ({password,passwordHash}) => {
   
     return new Promise((resolve, reject) => {
         bcrypt.compare(password, passwordHash, function(err, res) {
+           
             if (err) reject(err);
             resolve(res);
         });
