@@ -120,7 +120,7 @@ export const firewallAutorisation = url => {
         /^\/register/g,
         /^\/connexion/g,
 
-        /^\/authControl/g,
+        /^\/user/g,
     ];
 
     autorisations.map(r => {

@@ -20,7 +20,6 @@ export const connexion = async (req, res) => {
             let accessToken = jwt.sign({ email : resultAccount[0].email, authlevel : resultAccount[0].authlevel}, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256",expiresIn:3600});
             console.log("ACCESTOKEN:",accessToken);
             try {
-
                 res.cookie('authcookie',accessToken,{maxAge:900000,httpOnly:true}) 
 
                 if(accessToken != null){
@@ -44,7 +43,6 @@ export const connexion = async (req, res) => {
 export const authControl = async (req, res) => {
 
     let accessToken = req.cookies.authcookie
-    
     //if there is no token stored in cookies, the request is unauthorized
     if (!accessToken){
         console.log("access token vide")

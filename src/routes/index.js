@@ -8,5 +8,7 @@ router.use("/register",require("./register.route"))
 router.use("/connexion",require("./connexion.route"))
 router.use("/connexion/authControl",require("./connexion.route"))
 router.use("/connexion/disconnect",require("./connexion.route"))
+router.use("/user/getProfil",require("./user.route"))
+
 
 module.exports = router;
