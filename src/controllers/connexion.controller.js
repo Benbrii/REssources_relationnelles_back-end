@@ -1,7 +1,7 @@
 import { GetAccount } from "../models/user.model";
-import jwt from "jsonwebtoken"
-import cookieParser from 'cookie-parser'
-import bcrypt from 'bcrypt'
+import * as jwt from "jsonwebtoken";
+//import cookieParser from 'cookie-parser'
+import bcrypt from 'bcrypt';
 
 export const connexion = async (req, res) => {
 
@@ -22,11 +22,12 @@ export const connexion = async (req, res) => {
             let accessToken = jwt.sign({ email: resultAccount[0].email, authlevel: resultAccount[0].authlevel }, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256", expiresIn: 60 * 60 });
             console.log("ACCESTOKEN:", accessToken);
             try {
-                res.cookie('authcookie', accessToken, { maxAge: 900000, httpOnly: true })
+                res.cookie('authcookie', accessToken, { sameSite: true, maxAge: 900000, httpOnly: true })
 
                 if (accessToken != null) {
                     console.log("CONNECTION OK");
-                    res.json({ connexion: true, authlevel: resultAccount[0].authlevel, user: resultAccount[0].email });
+                    console.log("token ?", accessToken)
+                    res.json({ connexion: true, authlevel: resultAccount[0].authlevel, user: resultAccount[0].email, token: accessToken });
                 } else {
                     res.json({ connexion: false });
                 }
