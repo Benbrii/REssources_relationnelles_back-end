@@ -22,7 +22,7 @@ export const connexion = async (req, res) => {
             let accessToken = jwt.sign({ email: resultAccount[0].email, authlevel: resultAccount[0].authlevel }, process.env.ACCESS_TOKEN_SECRET);
             console.log("ACCESTOKEN:", accessToken);
             try {
-                res.cookie('authcookie', accessToken, { sameSite: true, maxAge: 60 * 60, httpOnly: true, secure: true })
+                res.cookie('authcookie', accessToken, { maxAge: 60 * 60, httpOnly: true, secure: true, sameSite: 'none' })
                 // res.cookie('authcookie', accessToken, { sameSite: true, maxAge: 60 * 60, httpOnly: true })
 
                 if (accessToken != null) {
