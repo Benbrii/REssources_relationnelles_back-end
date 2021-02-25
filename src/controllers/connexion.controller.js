@@ -19,10 +19,10 @@ export const connexion = async (req, res) => {
 
         if (comparePassword == true) {
 
-            let accessToken = jwt.sign({ email: resultAccount[0].email, authlevel: resultAccount[0].authlevel }, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256", expiresIn: 60 * 60 });
+            let accessToken = jwt.sign({ email: resultAccount[0].email, authlevel: resultAccount[0].authlevel }, process.env.ACCESS_TOKEN_SECRET);
             console.log("ACCESTOKEN:", accessToken);
             try {
-                res.cookie('authcookie', accessToken, { sameSite: true, maxAge: 900000, httpOnly: true })
+                res.cookie('authcookie', accessToken, { sameSite: true, maxAge: 60 * 60, httpOnly: true })
 
                 if (accessToken != null) {
                     console.log("CONNECTION OK");
