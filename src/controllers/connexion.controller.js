@@ -26,7 +26,7 @@ export const connexion = async (req, res) => {
 
                 if (accessToken != null) {
                     console.log("CONNECTION OK");
-                    res.json({ connexion: true, authlevel: resultAccount[0].authlevel });
+                    res.json({ connexion: true, authlevel: resultAccount[0].authlevel, user: resultAccount[0].email });
                 } else {
                     res.json({ connexion: false });
                 }
