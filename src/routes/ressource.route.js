@@ -1,7 +1,8 @@
 import express from "express";
 import {
     getRessource,
-    getRessourceById
+    getRessourceById,
+    getCommentByRessourceId
 } from "../controllers/ressource.controller";
 
 const router = express.Router();
@@ -12,5 +13,6 @@ router.get('/', (req, res) => {
 
 router.get('/ressource', getRessource);
 router.get('/:id', getRessourceById);
+router.get('/comments/:id', getCommentByRessourceId);
 
 module.exports = router;

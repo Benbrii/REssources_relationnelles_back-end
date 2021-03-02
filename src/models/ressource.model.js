@@ -50,3 +50,14 @@ export const getRessourceWithId = async ({ id }) => {
         );
     });
 };
+
+export const getCommentWithRessourceId = async ({ id }) => {
+    return new Promise((resolve, reject) => {
+        query(
+            `SELECT * FROM commentaire WHERE id_ressource = '${id}'`, (error, result) => {
+                if (error) reject(error);
+                resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
+            }
+        );
+    });
+};

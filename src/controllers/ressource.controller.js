@@ -1,6 +1,7 @@
 import {
     getAllRessource,
-    getRessourceWithId
+    getRessourceWithId,
+    getCommentWithRessourceId
 } from "../models/ressource.model";
 
 export const getRessource = async (req, res) => {
@@ -14,4 +15,11 @@ export const getRessourceById = async (req, res) => {
 
     const ressource = await getRessourceWithId({ id });
     res.json(ressource);
+}
+
+export const getCommentByRessourceId = async (req, res) => {
+    const { id } = req.params;
+
+    const comments = await getCommentWithRessourceId({ id });
+    res.json(comments);
 }
