@@ -56,10 +56,9 @@ export const removeFavoris = async (req, res) => {
 }
 
 export const getFavorisByUserId = async (req, res) => {
-    const { uId } = req.body;
+    const { uId } = req.params;
     console.log(uId);
 
     const getfavbyuid = await getAllFavorisByUserId({ uId });
-
     res.json(getfavbyuid);
 }

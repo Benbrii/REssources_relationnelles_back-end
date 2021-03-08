@@ -27,11 +27,11 @@ export const getAllRessource = () => {
     });
 };
 
-export const addPoste = ({ title, theme, newDocURL, type, description, todayDate, privee }) => {
+export const addPoste = ({ title, theme, newDocURL, type, description, todayDate, privee, userID }) => {
     return new Promise((resolve, reject) => {
         query(
             `INSERT INTO ressource(titre, theme, lien, date_envoie, type_ressource, id_compte, description, private)
-            VALUES ('${title}', '${theme}', '${newDocURL}', '${todayDate}', '${type}', '1', '${description}', ${privee})`,
+            VALUES ('${title}', '${theme}', '${newDocURL}', '${todayDate}', '${type}', '${userID}', '${description}', ${privee})`,
             (error, result) => {
                 if (error) reject(error);
                 resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
@@ -103,7 +103,7 @@ export const removeRessourceFromFavoris = async ({ id_user, idRessource }) => {
 export const getAllFavorisByUserId = async ({ uId }) => {
     return new Promise((resolve, reject) => {
         query(
-            `SELECT * FROM favoris WHERE id_compte = ${uId}`,
+            `SELECT * FROM favoris WHERE id_compte = '${uId}'`,
             (error, result) => {
                 if (error) reject(error);
                 resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
