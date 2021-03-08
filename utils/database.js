@@ -24,8 +24,9 @@ const pool = new Pool({
   password: process.env.DATABASE_PASSWORD,
   port: process.env.DATABASE_PORT
 });
-
 pool.connect().then(() => {console.log("DATABASE CONNECTION OK")}).catch((e) => {console.log("DATABASE CONNECTION KO",e)});
+
+
 
 /**
  * Insert query
