@@ -23,3 +23,5 @@ router.post('/addcomment', postComment);
 router.post('/addfavoris', addFavoris);
 router.post('/removefavoris', removeFavoris);
 router.get('/getallfavoris/:uId', getFavorisByUserId);
+
+module.exports = router;

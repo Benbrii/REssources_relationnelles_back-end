@@ -140,11 +140,7 @@ export const firewallAutorisation = url => {
         /^\/ressource/g,
         /^\/ressource\/ressource/g,
         /^\/ressources\/comments/g,
-        
-        /^\/ressources\/addcomment/g,
-        /^\/ressources\/addfavoris/g,
-        /^\/ressources\/removefavoris/g,
-        /^\/ressources\/getallfavoris/g,
+    
         
         /^\/register/g,
 
@@ -161,7 +157,12 @@ export const firewallAutorisation = url => {
         /^\/admin\/addCategorie/g,
         /^\/admin\/deleteCat/g,
         /^\/admin\/AccountActivation/g,
-        /^\/admin\/AccountDesactivation/g
+        /^\/admin\/AccountDesactivation/g,
+
+        /^\/ressources\/addcomment/g,
+        /^\/ressources\/addfavoris/g,
+        /^\/ressources\/removefavoris/g,
+        /^\/ressources\/getallfavoris/g,
     ];
 
     autorisations.map(r => {

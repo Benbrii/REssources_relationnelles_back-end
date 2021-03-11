@@ -91,7 +91,6 @@ app.post('/upload', upload.single('selectedFile'), (req, res) => {
     
     let { title, categorie, type, description, privee,userID } = req.body;
 
-        console.log("userID",userID)
     let todayDate = new Date().toLocaleDateString("fr-FR");
 
     cloudinary.uploader.upload(
