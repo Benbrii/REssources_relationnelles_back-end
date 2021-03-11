@@ -6,64 +6,85 @@ import bcrypt from 'bcrypt';
 export const connexion = async (req, res) => {
 
     let { email, password } = req.body;
-
     let resultAccount = null
-    
+
+    // On verifie l'email
     try{
         resultAccount = await GetAccount({ email });
     }catch(e){
-
         console.log("GetAccount ERROR",e)
     }
-    
+
     if (resultAccount.length > 0) {
+        
+        if (resultAccount[0].active === true){
 
-        const passwordHash = resultAccount[0].motdepasse
+            // On verifie dans le mots de passe
+            let comparePassword = null;
+            try{
+                const passwordHash = resultAccount[0].motdepasse
 
-        const comparePassword = await ComparePassword({ password, passwordHash })
+                if(password != null && passwordHash != null){
+                    comparePassword = await ComparePassword({ password, passwordHash })
+                }else{
+                    res.status(401).json({  
+                        message: "Veuillez entré un mots de passe"
+                    })
+                }
+                
+            }catch(e){
+                console.log("ComparePassword ERROR",e)
+            }
+            
+            if(comparePassword === true){
 
-        if (comparePassword == true) {
+                // On crée un token
+                try {
+                    let accessToken = jwt.sign({ email: resultAccount[0].email, authlevel: resultAccount[0].id_role }, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256", expiresIn: 60 * 60 });
+                    console.log("ACCESTOKEN:", accessToken);
 
-            let accessToken = jwt.sign({ email: resultAccount[0].email, authlevel: resultAccount[0].id_role }, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256", expiresIn: 60 * 60 });
-            console.log("ACCESTOKEN:", accessToken);
-            try {
+                // On met le token dans les cookies
                 res.cookie('authcookie', accessToken, { expires: new Date(new Date().getTime()+5*60*1000), httpOnly: true });
 
-                if (accessToken != null) {
-                    console.log("CONNECTION OK");
-                    res.json({ connexion: true, authlevel: resultAccount[0].id_role, user: resultAccount[0].email, token: accessToken });
-                } else {
-                    res.json({ connexion: false });
+                console.log("CONNECTION OK");
+                
+                res.status(200).json({ isLogged: true, user: resultAccount[0]});
+                
+                } catch (e) {
+                    console.log("Token and cookies error",e)
                 }
 
-            } catch (err) {
-                res.json({ connexion: false });
-                console.log({ connexion: false, message: err });
+            }else{
+                res.status(401).json({  
+                    message: "Le mots de passe est incorrect"
+                })
             }
-        } else {
+        }else{
 
-            res.json({ connexion: false });
-            console.log("le mots de passe est incorrect");
+            res.status(401).json({  
+                message: "Votre compte a était désactivé"
+            })
         }
+        
     } else {
-        res.json({ connexion: false });
-        console.log("l'email est incorrect");
+        res.status(401).json({  
+            message: "L'email est incorrect"
+        })
+       
     }
 }
 
 export const authControl = async (req, res) => {
 
     let accessToken = req.cookies.authcookie
-
     //if there is no token stored in cookies, the request is unauthorized
     if (!accessToken) {
         console.log("access token vide")
-        return res.status(403).json({
+        return res.status(401).json({
             message: 'Login Failed',
             islogged: false
         })
     }
-
     try {
         jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
         console.log("TOKEN OK")
@@ -71,13 +92,14 @@ export const authControl = async (req, res) => {
             message: 'Login Successful',
             islogged: true
         });
-
     } catch (e) {
         console.log("CLEAR DISCONNECT")
-        disconnect(req, res)
-
+        res.status(401).json({
+            islogged: false
+        });
     }
 }
+
 
 export const disconnect = async (req, res) => {
 

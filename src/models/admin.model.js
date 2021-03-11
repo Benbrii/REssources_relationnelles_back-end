@@ -26,10 +26,10 @@ export const getAllCat = () => {
     });
 };
 
-export const getAllTheme = () => {
+export const getAllType = () => {
     return new Promise((resolve, reject) => {
         query(
-            `SELECT id, labelle FROM categorie ORDER BY id`,
+            `SELECT id, labelle FROM type_ressource ORDER BY id`,
             (error, result) => {
                 if (error) reject(error);
                 resolve(result);
@@ -67,6 +67,47 @@ export const deletCat = (delCat) => {
     return new Promise((resolve, reject) => {
         query(
             `DELETE FROM categorie where labelle = '${delCat}'`,
+            (error, result) => {
+                if (error) reject(error);
+                resolve(result);
+            }
+        );
+    });
+};
+
+export const accountActivationModel = (email) => {
+    console.log("email",email)
+    return new Promise((resolve, reject) => {
+        query(
+            `UPDATE compte set active = true WHERE email = '${email}'`,
+            (error, result) => {
+                if (error) reject(error);
+                resolve(result);
+            }
+        );
+    });
+};
+
+export const accountDesactivationModel = (email) => {
+    console.log("email",email)
+    return new Promise((resolve, reject) => {
+        query(
+            `UPDATE compte set active = false WHERE email = '${email}'`,
+            (error, result) => {
+                if (error) reject(error);
+                resolve(result);
+            }
+        );
+    });
+};
+
+
+export const getStatModel = (année,categorie) => {
+    return new Promise((resolve, reject) => {
+        const request = "select "
+
+        query(
+            `UPDATE compte set active = false WHERE email = '${email}'`,
             (error, result) => {
                 if (error) reject(error);
                 resolve(result);

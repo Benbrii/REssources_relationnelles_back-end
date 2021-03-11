@@ -1,4 +1,4 @@
-import {getAllRoles,updateRoles,addCat,getAllCat,deletCat} from "../models/admin.model"
+import {getAllRoles,updateRoles,addCat,getAllCat,getAllType,deletCat,accountActivationModel,accountDesactivationModel} from "../models/admin.model"
 import {GetVerifyEmail} from "../models/user.model"
 
 export const UpdateAdminForm = async (req, res) => {
@@ -7,9 +7,9 @@ export const UpdateAdminForm = async (req, res) => {
 
         const roles = await getAllRoles();
         const categories = await getAllCat();
+        const type = await getAllType();
         const years = getFiveDates();
-
-        res.json({roles: roles.rows,categories:categories.rows,years:years})
+        res.json({roles: roles.rows,categories:categories.rows,type:type.rows,years:years})
     }catch(e){
         console.log(e)
         res.status(403).json({
@@ -28,12 +28,10 @@ export const changeRole = async (req, res) => {
         if (resultEmail[0].verifyemail > '0') {
 
             const response = await updateRoles(email, role);
-            res.status(200).json({update: true});
+            res.status(200).json({update: true,message: "Le role à était modifier"});
 
         }else{
-
-            res.json({update: false,message:"Email invalide"});
-            
+            res.status(401).json({update: false,message:"Email invalide"});
         } 
 
     }catch(e){
@@ -49,38 +47,80 @@ export const changeRole = async (req, res) => {
 export const addCategorie = async (req, res) => {
     
     const {categorie} = req.body;
-    
     try{
         console.log("categorie",categorie)
         const response = await addCat(categorie);
-        res.status(200).json({update: true});
+
+        if(response.rowCount >= 1){
+            res.status(200).json({update: true,message: "La categorie: "+categorie+" à était ajouter"})
+
+        }else{
+
+            res.status(401).json({update: true,message: "La categorie: "+categorie+" n'à pas était ajouter"})
+        }
             
     }catch(e){
         console.log("ERROR ",e)
-        res.json({
+        res.status(403).json({
             update: false,
             message:e
         })
     }
 }
-
-
 
 export const deleteCat = async (req, res) => {
     
     const {delCat} = req.body;
-    console.log("categorie",delCat)
     try{
         const response = await deletCat(delCat);
-        res.status(200).json({update: true});
+        
+        if(response.rowCount >= 1){
+            res.status(200).json({update: true,message: "La categorie: "+delCat+" à était supprimer"})
+
+        }else{
+            res.status(401).json({update: true,message: "La categorie: "+delCat+" n'à pas était supprimer"})
+        }
     }catch(e){
         console.log("ERROR ",e)
-        res.json({
+        res.status(403).json({
             update: false,
             message:e
         })
     }
 }
+
+export const accountActivation = async (req, res) => {
+    
+    const {email} = req.body;
+    console.log("email",email)
+    try{
+        const response = await accountActivationModel(email);
+        res.status(200).json({update: true});
+    }catch(e){
+        console.log("ERROR ",e)
+        res.status(403).json({
+            update: false,
+            message:e
+        })
+    }
+}
+
+export const accountDesactivation = async (req, res) => {
+    
+    const {email} = req.body;
+    console.log("email",email)
+    try{
+        const response = await accountDesactivationModel(email);
+        res.status(200).json({update: true});
+    }catch(e){
+        console.log("ERROR ",e)
+        res.status(403).json({
+            update: false,
+            message:e
+        })
+    }
+}
+
 
 //////////////////////////////////////////////////////////////
 //Récupére les 5 derniére année par rapport a l'année en cours

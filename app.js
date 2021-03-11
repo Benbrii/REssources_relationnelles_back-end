@@ -89,7 +89,7 @@ app.post('/upload', upload.single('selectedFile'), (req, res) => {
 
     const uniqueFilename = req.file.originalname;
 
-    let { title, theme, type, description, privee } = req.body;
+    let { title, theme, type, description, privee ,} = req.body;
 
     let todayDate = new Date().toLocaleDateString("fr-FR");
 
