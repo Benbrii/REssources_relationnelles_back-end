@@ -1,8 +1,10 @@
-CREATE TABLE IF NOT EXISTS roles (
+DROP TABLE IF EXISTS roles CASCADE;
+CREATE TABLE roles (
 	id SERIAL PRIMARY KEY,
 	labelle VARCHAR(250)
 );
 
+DROP TABLE IF EXISTS compte CASCADE;
 CREATE TABLE IF NOT EXISTS compte (
 	id SERIAL PRIMARY KEY,
 	email VARCHAR(250),
@@ -21,6 +23,7 @@ CREATE TABLE IF NOT EXISTS compte (
 	FOREIGN KEY (id_role) REFERENCES roles(id)
 );
 
+DROP TABLE IF EXISTS type_ressource CASCADE;
 CREATE TABLE IF NOT EXISTS type_ressource(
 
    id SERIAL PRIMARY KEY,
@@ -28,6 +31,7 @@ CREATE TABLE IF NOT EXISTS type_ressource(
    
 );
 
+DROP TABLE IF EXISTS ressource CASCADE;
 CREATE TABLE IF NOT EXISTS ressource(
 
    id SERIAL PRIMARY KEY,
@@ -42,6 +46,7 @@ CREATE TABLE IF NOT EXISTS ressource(
    FOREIGN KEY (id_type) REFERENCES type_ressource(id)
 );
 
+DROP TABLE IF EXISTS consult CASCADE;
 CREATE TABLE IF NOT EXISTS consult(
 
    id SERIAL PRIMARY KEY,
@@ -52,6 +57,7 @@ CREATE TABLE IF NOT EXISTS consult(
    FOREIGN KEY (id_ressource) REFERENCES ressource(id)
 );
 
+DROP TABLE IF EXISTS commentaire CASCADE;
 CREATE TABLE IF NOT EXISTS commentaire(
 
    id SERIAL PRIMARY KEY,
@@ -62,13 +68,14 @@ CREATE TABLE IF NOT EXISTS commentaire(
    FOREIGN KEY (id_ressource) REFERENCES ressource(id)
 );
 
-
+DROP TABLE IF EXISTS categorie CASCADE;
 CREATE TABLE IF NOT EXISTS categorie(
 
    id SERIAL PRIMARY KEY,
    labelle VARCHAR(250)
 );
 
+DROP TABLE IF EXISTS ressource_categorie CASCADE;
 CREATE TABLE IF NOT EXISTS ressource_categorie(
 
    id SERIAL PRIMARY KEY,
@@ -79,6 +86,7 @@ CREATE TABLE IF NOT EXISTS ressource_categorie(
    
 );
 
+DROP TABLE IF EXISTS piece_jointe CASCADE;
 CREATE TABLE IF NOT EXISTS piece_jointe(
 
    id SERIAL  PRIMARY KEY,
@@ -88,6 +96,7 @@ CREATE TABLE IF NOT EXISTS piece_jointe(
    
 );
 
+DROP TABLE IF EXISTS ressource_pieceJointe CASCADE;
 CREATE TABLE IF NOT EXISTS ressource_pieceJointe(
 
    id SERIAL PRIMARY KEY,
@@ -98,6 +107,7 @@ CREATE TABLE IF NOT EXISTS ressource_pieceJointe(
    
 );
 
+DROP TABLE IF EXISTS favoris CASCADE;
 CREATE TABLE IF NOT EXISTS favoris(
    id SERIAL PRIMARY KEY,
    id_compte INT,
@@ -125,4 +135,12 @@ INSERT INTO type_ressource (labelle) VALUES
 ('video'),
 ('article'),
 ('publication');
+
+INSERT INTO compte (id,pseudo,id_role,active) VALUES
+(0,'invité',1,true);
+
+INSERT INTO compte (email,motDePasse,nom,prenom,pseudo,id_role,active) VALUES
+('superadmin@gmail.com','$2b$10$NY0jwWhYctgKmeXedkumYe2o36W1o5B1AvS0OEjWGxoaskBBy8e.O','Super','Admin','SuperAdmin',4,'true');
+
+
 

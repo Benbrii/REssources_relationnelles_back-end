@@ -2,8 +2,8 @@ import { insertNewRegister, GetVerifyEmail } from "../models/user.model";
 import bcrypt from 'bcrypt'
 
 export const insertRegister = async (req, res) => {
-
-    let { lastName, firstName, email, password1, password2, birthDate, pseudo, adress, city, postalCode } = req.body;
+    try{
+        let { lastName, firstName, email, password1, password2, birthDate, pseudo, adress, city, postalCode } = req.body;
 
     // On verify dans la base de données que l'email n'existe pas déjà
     if (lastName != null && firstName != null && email != null && password1 != null && password2 != null && birthDate != null && pseudo != null && adress != null && city != null && postalCode != null) {
@@ -54,6 +54,12 @@ export const insertRegister = async (req, res) => {
             message: "Veuillez remplir les champs obligatoire formulaire"
         })
     }
+  }catch(e){
+    res.status(403).json({  
+        message: e
+    })
+  }
+    
 }
 
 //On Crypte le mot de passe

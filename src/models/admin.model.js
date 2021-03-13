@@ -102,12 +102,65 @@ export const accountDesactivationModel = (email) => {
 };
 
 
-export const getStatModel = (année,categorie) => {
+export const getStatConsultModel = (annee,categorie,type) => {
+
+    console.log("data", annee," ",categorie," ",type)
+
     return new Promise((resolve, reject) => {
-        const request = "select "
+
+        let request =  `SELECT (SELECT date_part('month',co.date_consult)) AS mois, COUNT(*)
+                        FROM consult co
+                        inner join ressource r on co.id_ressource = r.id
+                        inner join ressource_categorie rc on rc.id_ressource = r.id
+                        inner join categorie ca on ca.id = rc.id_categorie
+                        inner join type_ressource tr on tr.id = r.id_type
+                        WHERE (SELECT date_part('year',co.date_consult)) = ${annee}`
+        
+        if(categorie != "toute categories"){
+            request = request + ` AND ca.labelle = '${categorie}'`
+        }
+
+        if(type != "tout types"){
+            request = request + ` AND tr.labelle = '${type}'`
+        }
+
+        request = request + ` GROUP BY mois`
 
         query(
-            `UPDATE compte set active = false WHERE email = '${email}'`,
+           request,
+            (error, result) => {
+                if (error) reject(error);
+                resolve(result);
+            }
+        );
+    });
+};
+
+export const getStatCreatModel = (annee,categorie,type) => {
+
+    console.log("data", annee," ",categorie," ",type)
+
+    return new Promise((resolve, reject) => {
+
+        let request =  `SELECT (SELECT date_part('month',r.date_envoie)) AS mois, COUNT(*)
+                        FROM ressource r
+                        inner join ressource_categorie rc on rc.id_ressource = r.id
+                        inner join categorie ca on ca.id = rc.id_categorie
+                        inner join type_ressource tr on tr.id = r.id_type
+                        WHERE (SELECT date_part('year',r.date_envoie)) = ${annee}`
+        
+        if(categorie != "toute categories"){
+            request = request + ` AND ca.labelle = '${categorie}'`
+        }
+
+        if(type != "tout types"){
+            request = request + ` AND tr.labelle = '${type}'`
+        }
+
+        request = request + ` GROUP BY mois`
+
+        query(
+           request,
             (error, result) => {
                 if (error) reject(error);
                 resolve(result);

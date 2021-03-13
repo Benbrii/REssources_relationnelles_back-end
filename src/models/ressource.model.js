@@ -22,6 +22,7 @@ export const getAllRessource = () => {
             (error, result) => {
                 if (error) reject(error);
                 resolve(result);
+                
             }
         );
     });
@@ -58,8 +59,8 @@ export const addPoste = ({ title, categorie, newDocURL, type, description, today
 };
 
 export const getRessourceWithId = async ({ id }) => {
+    console.log("getRessourceWithId")
     return new Promise((resolve, reject) => {
-        console.log("id",id)
         try{
             query(
                 `SELECT r.*,c.labelle as categorie FROM ressource r inner join ressource_categorie rc on rc.id_ressource = r.id inner join categorie c on c.id = rc.id_categorie WHERE r.id = ${id}`,
@@ -78,20 +79,36 @@ export const getRessourceWithId = async ({ id }) => {
 export const getCommentWithRessourceId = async ({ id }) => {
     return new Promise((resolve, reject) => {
         query(
-            `SELECT * FROM commentaire WHERE id_ressource = '${id}'`, (error, result) => {
+            `SELECT com.*,comp.pseudo as pseudo FROM commentaire com inner join compte comp on comp.id = com.id_compte WHERE id_ressource = ${id}`, (error, result) => {
                 if (error) reject(error);
+               
                 resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
             }
         );
     });
 };
 
-export const addCommentToRessource = async ({ commentaire, idUser, pseudoUser, idRessource }) => {
+export const addConsult = async (idUser,idRessource,todayDate) => {
     return new Promise((resolve, reject) => {
         query(
-            `INSERT INTO commentaire(message, id_compte, id_ressource, pseudo_compte)
-            VALUES ('${commentaire}', '${idUser}', '${idRessource}', '${pseudoUser}')`,
+            `INSERT INTO consult (id_compte, id_ressource,date_consult) VALUES ('${idUser}', '${idRessource}','${todayDate}')`, (error, result) => {
+                if (error) reject(error);
+                resolve();
+            }
+        );
+    });
+};
+
+export const addCommentToRessource = async ({ commentaire, idUser, idRessource }) => {
+
+    console.log("addCommentToRessource",commentaire, idUser, idRessource)
+
+    return new Promise((resolve, reject) => {
+        query(
+            `INSERT INTO commentaire(message, id_compte, id_ressource)
+            VALUES ('${commentaire}', '${idUser}', '${idRessource}')`,
             (error, result) => {
+               
                 if (error) reject(error);
                 resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
             }

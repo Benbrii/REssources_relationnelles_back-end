@@ -95,11 +95,7 @@ export const firewallWhitelist = url => {
         /^\/ressource/g,
         /^\/ressource\/ressource/g,
         /^\/ressources\/comments/g,
-
-        /^\/ressources\/addcomment/g,
-        /^\/ressources\/addfavoris/g,
-        /^\/ressources\/removefavoris/g,
-        /^\/ressources\/getallfavoris/g,
+        /^\/ressources\/getRessourceById/g,
         
         /^\/register/g,
 
@@ -109,15 +105,18 @@ export const firewallWhitelist = url => {
         /^\/connexion\/authcontroll/g,
         /^\/connexion\/disconnect/g,
 
-        /^\/connexion\/disconnect/g,
+        /^\/ressources\/addcomment/g,
+        /^\/ressources\/addfavoris/g,
+        /^\/ressources\/removefavoris/g,
+        /^\/ressources\/getallfavoris/g,
 
         /^\/admin\/UpdateAdminForm/g,    
         /^\/admin\/changeRole/g,   
         /^\/admin\/addCategorie/g,
         /^\/admin\/deleteCat/g,
         /^\/admin\/AccountActivation/g,
-        /^\/admin\/AccountDesactivation/g
-        
+        /^\/admin\/AccountDesactivation/g,
+        /^\/admin\/getStat/g
     ];
 
     w.map(r => {
@@ -137,10 +136,8 @@ export const firewallAutorisation = url => {
 
         /^\/ressources/g,
         /^\/ressources\/ressource/g,
-        /^\/ressource/g,
-        /^\/ressource\/ressource/g,
         /^\/ressources\/comments/g,
-    
+        /^\/ressources\/getRessourceById/g,
         
         /^\/register/g,
 
@@ -150,7 +147,10 @@ export const firewallAutorisation = url => {
         /^\/connexion\/authcontroll/g,
         /^\/connexion\/disconnect/g,
 
-        /^\/connexion\/disconnect/g,
+        /^\/ressources\/addcomment/g,
+        /^\/ressources\/addfavoris/g,
+        /^\/ressources\/removefavoris/g,
+        /^\/ressources\/getallfavoris/g,
 
         /^\/admin\/UpdateAdminForm/g,    
         /^\/admin\/changeRole/g,   
@@ -158,11 +158,7 @@ export const firewallAutorisation = url => {
         /^\/admin\/deleteCat/g,
         /^\/admin\/AccountActivation/g,
         /^\/admin\/AccountDesactivation/g,
-
-        /^\/ressources\/addcomment/g,
-        /^\/ressources\/addfavoris/g,
-        /^\/ressources\/removefavoris/g,
-        /^\/ressources\/getallfavoris/g,
+        /^\/admin\/getStat/g
     ];
 
     autorisations.map(r => {

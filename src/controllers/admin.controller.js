@@ -1,10 +1,9 @@
-import {getAllRoles,updateRoles,addCat,getAllCat,getAllType,deletCat,accountActivationModel,accountDesactivationModel} from "../models/admin.model"
+import {getAllRoles,updateRoles,addCat,getAllCat,getAllType,deletCat,accountActivationModel,accountDesactivationModel,getStatConsultModel,getStatCreatModel} from "../models/admin.model"
 import {GetVerifyEmail} from "../models/user.model"
 
 export const UpdateAdminForm = async (req, res) => {
     
     try{
-
         const roles = await getAllRoles();
         const categories = await getAllCat();
         const type = await getAllType();
@@ -95,7 +94,7 @@ export const accountActivation = async (req, res) => {
     console.log("email",email)
     try{
         const response = await accountActivationModel(email);
-        res.status(200).json({update: true});
+        res.status(200).json({update: true,message: "Le compte "+email+" a était activé"});
     }catch(e){
         console.log("ERROR ",e)
         res.status(403).json({
@@ -111,7 +110,7 @@ export const accountDesactivation = async (req, res) => {
     console.log("email",email)
     try{
         const response = await accountDesactivationModel(email);
-        res.status(200).json({update: true});
+        res.status(200).json({update: true,message: "Le compte "+email+" a était désactivé"});
     }catch(e){
         console.log("ERROR ",e)
         res.status(403).json({
@@ -121,6 +120,22 @@ export const accountDesactivation = async (req, res) => {
     }
 }
 
+export const getStat = async (req, res) => {
+    console.log("req.body",req.body)
+    const {annee,categorie,type} = req.body;
+    try{
+        const consultations = await getStatConsultModel(annee,categorie,type);
+        const creations = await getStatCreatModel(annee,categorie,type);
+
+        res.status(200).json({update: true, consultStats:consultations.rows,creaStat:creations.rows});
+    }catch(e){
+        console.log("ERROR ",e)
+        res.status(403).json({
+            update: false,
+            message:e
+        })
+    }
+}
 
 //////////////////////////////////////////////////////////////
 //Récupére les 5 derniére année par rapport a l'année en cours

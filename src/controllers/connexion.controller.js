@@ -44,7 +44,7 @@ export const connexion = async (req, res) => {
                     console.log("ACCESTOKEN:", accessToken);
 
                 // On met le token dans les cookies
-                res.cookie('authcookie', accessToken, { expires: new Date(new Date().getTime()+5*60*1000), httpOnly: true });
+                res.cookie('authcookie', accessToken, { expires: new Date(new Date().getTime()+3600000), httpOnly: true });
 
                 console.log("CONNECTION OK");
                 
