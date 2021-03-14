@@ -88,8 +88,8 @@ app.post('/upload', upload.single('selectedFile'), (req, res) => {
     ).content;
 
     const uniqueFilename = req.file.originalname;
-    
-    let { title, categorie, type, description, privee,userID } = req.body;
+
+    let { title, theme, type, description, privee ,} = req.body;
 
     let todayDate = new Date().toLocaleDateString("fr-FR");
 
@@ -107,8 +107,7 @@ app.post('/upload', upload.single('selectedFile'), (req, res) => {
             // return image details
             const newDocURL = file.secure_url;
             //const cloudID = file.public_id;
-
-            let poste = addPoste({ title, categorie, newDocURL, type, description, todayDate, privee, userID });
+            let poste = addPoste({ title, theme, newDocURL, type, description, todayDate, privee });
             res.json(poste);
         }
     )

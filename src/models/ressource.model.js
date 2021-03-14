@@ -18,56 +18,97 @@ con.connect(function (err) {
 export const getAllRessource = () => {
     return new Promise((resolve, reject) => {
         query(
-            `SELECT * FROM ressource ORDER BY id`,
+            `SELECT *,tr.labelle as type, c.labelle as categorie FROM ressource r inner join type_ressource tr on tr.id = r.id_type inner join ressource_categorie rc on rc.id_ressource = r.id inner join categorie c on c.id = rc.id_categorie ORDER BY r.id`,
             (error, result) => {
                 if (error) reject(error);
-                resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
+                resolve(result);
+                
             }
         );
     });
 };
 
-export const addPoste = ({ title, theme, newDocURL, type, description, todayDate, privee, userID }) => {
+export const addPoste = ({ title, categorie, newDocURL, type, description, todayDate, privee,userID }) => {
     return new Promise((resolve, reject) => {
-        query(
-            `INSERT INTO ressource(titre, theme, lien, date_envoie, type_ressource, id_compte, description, private)
-            VALUES ('${title}', '${theme}', '${newDocURL}', '${todayDate}', '${type}', '${userID}', '${description}', ${privee})`,
-            (error, result) => {
-                if (error) reject(error);
-                resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
-            }
-        );
+        try{
+            query(
+                `INSERT INTO ressource(titre, lien, date_envoie, id_type, id_compte, description, private)
+                VALUES ('${title}', '${newDocURL}', '${todayDate}', (select id from type_ressource where labelle ='${type}'),'${userID}', '${description}', ${privee})`,
+                
+                (error, result) => {
+                    if (error) reject(error);
+                    console.log("error 1",error);
+                }
+            );
+
+            query(
+                `INSERT INTO ressource_categorie(id_ressource,id_categorie) VALUES ((select MAX(id) from ressource),(select id from categorie where labelle = '${categorie}'))`,
+                
+                (error, result) => {
+                    if (error) reject(error);
+                    console.log("error 2",error);
+                    resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
+                }
+            );
+
+        }catch(e){
+            console.log("SQL INSERT RESSOURCE ERROR: ",e)
+        }
+        
     });
 };
 
 export const getRessourceWithId = async ({ id }) => {
+    console.log("getRessourceWithId")
     return new Promise((resolve, reject) => {
-        query(
-            `SELECT * FROM ressource WHERE id = '${id}'`, (error, result) => {
-                if (error) reject(error);
-                resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
-            }
-        );
+        try{
+            query(
+                `SELECT r.*,c.labelle as categorie FROM ressource r inner join ressource_categorie rc on rc.id_ressource = r.id inner join categorie c on c.id = rc.id_categorie WHERE r.id = ${id}`,
+                 (error, result) => {
+                    if (error) reject(error);
+                    resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
+                }
+            );
+        }catch (e){
+            console.log("getRessourceWithId ",e)
+        }
+        
     });
 };
 
 export const getCommentWithRessourceId = async ({ id }) => {
     return new Promise((resolve, reject) => {
         query(
-            `SELECT * FROM commentaire WHERE id_ressource = '${id}'`, (error, result) => {
+            `SELECT com.*,comp.pseudo as pseudo FROM commentaire com inner join compte comp on comp.id = com.id_compte WHERE id_ressource = ${id}`, (error, result) => {
                 if (error) reject(error);
+               
                 resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
             }
         );
     });
 };
 
-export const addCommentToRessource = async ({ commentaire, idUser, pseudoUser, idRessource }) => {
+export const addConsult = async (idUser,idRessource,todayDate) => {
     return new Promise((resolve, reject) => {
         query(
-            `INSERT INTO commentaire(message, id_compte, id_ressource, pseudo_compte)
-            VALUES ('${commentaire}', '${idUser}', '${idRessource}', '${pseudoUser}')`,
+            `INSERT INTO consult (id_compte, id_ressource,date_consult) VALUES ('${idUser}', '${idRessource}','${todayDate}')`, (error, result) => {
+                if (error) reject(error);
+                resolve();
+            }
+        );
+    });
+};
+
+export const addCommentToRessource = async ({ commentaire, idUser, idRessource }) => {
+
+    console.log("addCommentToRessource",commentaire, idUser, idRessource)
+
+    return new Promise((resolve, reject) => {
+        query(
+            `INSERT INTO commentaire(message, id_compte, id_ressource)
+            VALUES ('${commentaire}', '${idUser}', '${idRessource}')`,
             (error, result) => {
+               
                 if (error) reject(error);
                 resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
             }

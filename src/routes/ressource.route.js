@@ -1,3 +1,4 @@
+  
 import express from "express";
 import {
     getRessource,
@@ -16,11 +17,13 @@ router.get('/', (req, res) => {
 });
 
 router.get('/ressource', getRessource);
-router.get('/:id', getRessourceById);
 router.get('/comments/:id', getCommentByRessourceId);
+router.get('/getallfavoris/:uId', getFavorisByUserId);
 router.post('/addcomment', postComment);
 router.post('/addfavoris', addFavoris);
 router.post('/removefavoris', removeFavoris);
-router.get('/getallfavoris/:uId', getFavorisByUserId);
+router.post('/getRessourceById', getRessourceById);
 
 module.exports = router;
+
+

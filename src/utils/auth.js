@@ -95,7 +95,8 @@ export const firewallWhitelist = url => {
         /^\/ressource/g,
         /^\/ressource\/ressource/g,
         /^\/ressources\/comments/g,
-
+        /^\/ressources\/getRessourceById/g,
+        
         /^\/register/g,
 
         /^\/upload/g,
@@ -109,6 +110,13 @@ export const firewallWhitelist = url => {
         /^\/ressources\/removefavoris/g,
         /^\/ressources\/getallfavoris/g,
 
+        /^\/admin\/UpdateAdminForm/g,    
+        /^\/admin\/changeRole/g,   
+        /^\/admin\/addCategorie/g,
+        /^\/admin\/deleteCat/g,
+        /^\/admin\/AccountActivation/g,
+        /^\/admin\/AccountDesactivation/g,
+        /^\/admin\/getStat/g
     ];
 
     w.map(r => {
@@ -126,15 +134,15 @@ export const firewallAutorisation = url => {
     const autorisations = [
         /^\/cloud/g,
 
-        /^\/ressources\/ressource/g,
         /^\/ressources/g,
-        /^\/ressource/g,
-        /^\/ressource\/ressource/g,
+        /^\/ressources\/ressource/g,
         /^\/ressources\/comments/g,
-
+        /^\/ressources\/getRessourceById/g,
+        
         /^\/register/g,
 
         /^\/upload/g,
+
         /^\/connexion/g,
         /^\/connexion\/authcontroll/g,
         /^\/connexion\/disconnect/g,
@@ -143,6 +151,14 @@ export const firewallAutorisation = url => {
         /^\/ressources\/addfavoris/g,
         /^\/ressources\/removefavoris/g,
         /^\/ressources\/getallfavoris/g,
+
+        /^\/admin\/UpdateAdminForm/g,    
+        /^\/admin\/changeRole/g,   
+        /^\/admin\/addCategorie/g,
+        /^\/admin\/deleteCat/g,
+        /^\/admin\/AccountActivation/g,
+        /^\/admin\/AccountDesactivation/g,
+        /^\/admin\/getStat/g
     ];
 
     autorisations.map(r => {

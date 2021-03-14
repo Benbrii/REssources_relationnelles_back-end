@@ -6,7 +6,7 @@ export const GetVerifyEmail = ({ email }) => {
     // On verifie que l'email n'est pas déja utilisé
     return new Promise((resolve, reject) => {
         const emailpattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-
+        
         if (email.match(emailpattern)) {
 
             query(
@@ -37,12 +37,12 @@ export const GetAccount = ({ email }) => {
 };
 
 
-export const insertNewRegister = ({ lastName, firstName, email, passwordHashed, birthDate, pseudo, adress, city, postalCode }) => {
+export const insertNewRegister = ({ lastName, firstName, email, passwordHashed, birthDate, pseudo, adress, city, postalCode, }) => {
     // On insert les données de l'utilisateur dans la base de données
     return new Promise((resolve, reject) => {
         query(
-            `INSERT INTO compte (nom, prenom, email, motdepasse, date_de_naissance, pseudo, adresse, ville, code_postal, authlevel)
-            VALUES ( '${lastName}', '${firstName}', '${email}', '${passwordHashed}', '${birthDate}', '${pseudo}', '${adress}', '${city}', ${postalCode}, 1)`,
+            `INSERT INTO compte (nom, prenom, email, motdepasse, date_de_naissance, pseudo, adresse, ville, code_postal, id_role,active)
+            VALUES ( '${lastName}', '${firstName}', '${email}', '${passwordHashed}', '${birthDate}', '${pseudo}', '${adress}', '${city}', ${postalCode}, 1, true)`,
             (error, result) => {
                 if (error) reject(error);
                 resolve(result);
