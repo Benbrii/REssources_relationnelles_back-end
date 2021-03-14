@@ -94,6 +94,7 @@ export const firewallWhitelist = url => {
         /^\/ressources\/ressource/g,
         /^\/ressource/g,
         /^\/ressource\/ressource/g,
+        /^\/ressources\/comments/g,
 
         /^\/register/g,
 
@@ -101,7 +102,12 @@ export const firewallWhitelist = url => {
 
         /^\/connexion/g,
         /^\/connexion\/authcontroll/g,
-        /^\/connexion\/disconnect/g
+        /^\/connexion\/disconnect/g,
+
+        /^\/ressources\/addcomment/g,
+        /^\/ressources\/addfavoris/g,
+        /^\/ressources\/removefavoris/g,
+        /^\/ressources\/getallfavoris/g,
 
     ];
 
@@ -124,13 +130,19 @@ export const firewallAutorisation = url => {
         /^\/ressources/g,
         /^\/ressource/g,
         /^\/ressource\/ressource/g,
+        /^\/ressources\/comments/g,
 
         /^\/register/g,
 
         /^\/upload/g,
         /^\/connexion/g,
         /^\/connexion\/authcontroll/g,
-        /^\/connexion\/disconnect/g
+        /^\/connexion\/disconnect/g,
+
+        /^\/ressources\/addcomment/g,
+        /^\/ressources\/addfavoris/g,
+        /^\/ressources\/removefavoris/g,
+        /^\/ressources\/getallfavoris/g,
     ];
 
     autorisations.map(r => {

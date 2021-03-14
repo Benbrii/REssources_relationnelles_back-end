@@ -27,11 +27,11 @@ export const getAllRessource = () => {
     });
 };
 
-export const addPoste = ({ title, theme, newDocURL, type, description, todayDate, privee }) => {
+export const addPoste = ({ title, theme, newDocURL, type, description, todayDate, privee, userID }) => {
     return new Promise((resolve, reject) => {
         query(
             `INSERT INTO ressource(titre, theme, lien, date_envoie, type_ressource, id_compte, description, private)
-            VALUES ('${title}', '${theme}', '${newDocURL}', '${todayDate}', '${type}', '1', '${description}', ${privee})`,
+            VALUES ('${title}', '${theme}', '${newDocURL}', '${todayDate}', '${type}', '${userID}', '${description}', ${privee})`,
             (error, result) => {
                 if (error) reject(error);
                 resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
@@ -50,3 +50,64 @@ export const getRessourceWithId = async ({ id }) => {
         );
     });
 };
+
+export const getCommentWithRessourceId = async ({ id }) => {
+    return new Promise((resolve, reject) => {
+        query(
+            `SELECT * FROM commentaire WHERE id_ressource = '${id}'`, (error, result) => {
+                if (error) reject(error);
+                resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
+            }
+        );
+    });
+};
+
+export const addCommentToRessource = async ({ commentaire, idUser, pseudoUser, idRessource }) => {
+    return new Promise((resolve, reject) => {
+        query(
+            `INSERT INTO commentaire(message, id_compte, id_ressource, pseudo_compte)
+            VALUES ('${commentaire}', '${idUser}', '${idRessource}', '${pseudoUser}')`,
+            (error, result) => {
+                if (error) reject(error);
+                resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
+            }
+        );
+    });
+}
+
+export const addRessourceToFavoris = async ({ id_user, idRessource }) => {
+    return new Promise((resolve, reject) => {
+        query(
+            `INSERT INTO favoris(id_compte, id_ressource)
+            VALUES ('${id_user}', '${idRessource}')`,
+            (error, result) => {
+                if (error) reject(error);
+                resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
+            }
+        );
+    });
+}
+
+export const removeRessourceFromFavoris = async ({ id_user, idRessource }) => {
+    return new Promise((resolve, reject) => {
+        query(
+            `DELETE FROM favoris WHERE id_compte = ${id_user} AND id_ressource = ${idRessource}`,
+            (error, result) => {
+                if (error) reject(error);
+                resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
+            }
+        );
+    });
+}
+
+export const getAllFavorisByUserId = async ({ uId }) => {
+    return new Promise((resolve, reject) => {
+        query(
+            `SELECT * FROM favoris WHERE id_compte = '${uId}'`,
+            (error, result) => {
+                if (error) reject(error);
+                resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
+            }
+        );
+    });
+}
