@@ -18,7 +18,7 @@ con.connect(function (err) {
 export const getAllRessource = () => {
     return new Promise((resolve, reject) => {
         query(
-            `SELECT *,tr.labelle as type, c.labelle as categorie FROM ressource r inner join type_ressource tr on tr.id = r.id_type inner join ressource_categorie rc on rc.id_ressource = r.id inner join categorie c on c.id = rc.id_categorie ORDER BY r.id`,
+            `SELECT r.*,tr.labelle as type, c.labelle as categorie FROM ressource r inner join type_ressource tr on tr.id = r.id_type inner join ressource_categorie rc on rc.id_ressource = r.id inner join categorie c on c.id = rc.id_categorie ORDER BY r.id`,
             (error, result) => {
                 if (error) reject(error);
                 resolve(result);
@@ -28,7 +28,7 @@ export const getAllRessource = () => {
     });
 };
 
-export const addPoste = ({ title, categorie, newDocURL, type, description, privee, userID }) => {
+export const addPoste = ({ title, newDocURL, type, description, privee, userID }) => {
     let todayDate = new Date().toLocaleDateString("fr-CA");
     return new Promise((resolve, reject) => {
         try {
@@ -41,6 +41,16 @@ export const addPoste = ({ title, categorie, newDocURL, type, description, prive
                 }
             );
 
+        } catch (e) {
+            console.log("SQL INSERT RESSOURCE ERROR: ", e)
+        }
+
+    });
+};
+
+export const addRessCat = ({ categorie }) => {
+    return new Promise((resolve, reject) => {
+        try {
             query(
                 `INSERT INTO ressource_categorie(id_ressource,id_categorie) VALUES ((select MAX(id) from ressource),(select id from categorie where labelle = '${categorie}'))`,
 
@@ -50,7 +60,6 @@ export const addPoste = ({ title, categorie, newDocURL, type, description, prive
                     resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
                 }
             );
-
         } catch (e) {
             console.log("SQL INSERT RESSOURCE ERROR: ", e)
         }

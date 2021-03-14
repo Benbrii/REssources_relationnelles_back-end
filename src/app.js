@@ -6,7 +6,7 @@ import cors from "cors";
 import _ from "lodash";
 import path from 'path';
 
-import { addPoste } from "./models/ressource.model";
+import { addPoste, addRessCat } from "./models/ressource.model";
 
 import { init, autorisation } from "./utils/auth";
 const cloudinary = require("cloudinary").v2;
@@ -106,7 +106,13 @@ app.post('/upload', upload.single('selectedFile'), (req, res) => {
             const newDocURL = file.secure_url;
             //const cloudID = file.public_id;
 
-            let poste = addPoste({ title, categorie, newDocURL, type, description, privee, userID });
+            let poste = addPoste({ title, newDocURL, type, description, privee, userID }).then(() => {
+                console.log("im here")
+                addRessCat({ categorie })
+            }).catch((e) => {
+                console.log(e);
+            });
+
             res.json(poste);
         }
     )

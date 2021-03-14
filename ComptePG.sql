@@ -136,11 +136,3 @@ INSERT INTO type_ressource (labelle) VALUES
 ('article'),
 ('publication');
 
-INSERT INTO compte (id,pseudo,id_role,active) VALUES
-(0,'invité',1,true);
-
-INSERT INTO compte (email,motDePasse,nom,prenom,pseudo,id_role,active) VALUES
-('superadmin@gmail.com','$2b$10$NY0jwWhYctgKmeXedkumYe2o36W1o5B1AvS0OEjWGxoaskBBy8e.O','Super','Admin','SuperAdmin',4,'true');
-
-
-
