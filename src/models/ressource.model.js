@@ -28,8 +28,9 @@ export const getAllRessource = () => {
     });
 };
 
-export const addPoste = (title, newDocURL, type, description, privee, userID) => {
+export const addPoste = ({ title, categorie, newDocURL, type, description, privee, userID }) => {
     let todayDate = new Date().toLocaleDateString("fr-CA");
+    console.log(categorie);
     return new Promise((resolve, reject) => {
         try {
             query(
@@ -42,6 +43,16 @@ export const addPoste = (title, newDocURL, type, description, privee, userID) =>
                 }
             );
 
+            query(
+                `INSERT INTO ressource_categorie(id_ressource,id_categorie) VALUES ((select MAX(id) from ressource),(select id from categorie where labelle = '${categorie}'))`,
+
+                (error, result) => {
+                    if (error) reject(error);
+                    console.log("error 2", error);
+                    resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
+                }
+            );
+
         } catch (e) {
             console.log("SQL INSERT RESSOURCE ERROR: ", e)
         }
@@ -49,7 +60,7 @@ export const addPoste = (title, newDocURL, type, description, privee, userID) =>
     });
 };
 
-export const addRessCat = (categorie) => {
+/* export const addRessCat = (categorie) => {
     console.log("im here")
     return new Promise((resolve, reject) => {
         try {
@@ -67,7 +78,7 @@ export const addRessCat = (categorie) => {
         }
 
     });
-};
+}; */
 
 export const getRessourceWithId = async ({ id }) => {
     console.log("getRessourceWithId")

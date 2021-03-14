@@ -106,7 +106,7 @@ app.post('/upload', upload.single('selectedFile'), (req, res) => {
             const newDocURL = file.secure_url;
             //const cloudID = file.public_id;
 
-            let poste = addPosteController(title, categorie, newDocURL, type, description, privee, userID);
+            let poste = addPosteController({ title, categorie, newDocURL, type, description, privee, userID });
 
             res.json(poste);
         }
