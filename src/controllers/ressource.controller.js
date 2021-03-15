@@ -7,8 +7,7 @@ import {
     removeRessourceFromFavoris,
     getAllFavorisByUserId,
     addConsult,
-    addPoste,
-    testPoste
+    addPoste
 } from "../models/ressource.model";
 
 export const getRessource = async (req, res) => {
@@ -25,6 +24,7 @@ export const getRessource = async (req, res) => {
 export const getRessourceById = async (req, res) => {
     console.log("getRessourceById")
     const { id_user, id } = req.body;
+    console.log(id, id_user);
     try {
         const dateNow = new Date().toLocaleDateString("fr-CA");
         const ressource = await getRessourceWithId({ id });
@@ -38,6 +38,7 @@ export const getRessourceById = async (req, res) => {
 export const getCommentByRessourceId = async (req, res) => {
     console.log("getCommentByRessourceId")
     const { id } = req.params;
+    console.log(id);
     try {
         const comments = await getCommentWithRessourceId({ id });
         res.json(comments);

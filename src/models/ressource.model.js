@@ -75,7 +75,7 @@ export const getRessourceWithId = async ({ id }) => {
     return new Promise((resolve, reject) => {
         try {
             query(
-                `SELECT * FROM ressource WHERE id = '${id}`,
+                `SELECT * FROM ressource WHERE id = '${id}'`,
                 (error, result) => {
                     if (error) reject(error);
                     resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
@@ -91,7 +91,7 @@ export const getRessourceWithId = async ({ id }) => {
 export const getCommentWithRessourceId = async ({ id }) => {
     return new Promise((resolve, reject) => {
         query(
-            `SELECT com.*,comp.pseudo as pseudo FROM commentaire com inner join compte comp on comp.id = com.id_compte WHERE id_ressource = ${id}`, (error, result) => {
+            `SELECT * FROM commentaire WHERE id_ressource = ${id}`, (error, result) => {
                 if (error) reject(error);
 
                 resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
