@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS ressource(
 
    id SERIAL PRIMARY KEY,
    titre VARCHAR(250),
+   categorie VARCHAR(250),
    lien VARCHAR(250) NULL,
    date_envoie date,
    id_type INT,
@@ -125,10 +126,12 @@ VALUES
 
 INSERT INTO categorie (labelle)
 VALUES
-('categorie 1'),
-('categorie 2'),
-('categorie 3'),
-('categorie 4');
+('Information'),
+('Actualité'),
+('Personnel'),
+('Société'),
+('Santé'),
+('Autres');
 
 INSERT INTO type_ressource (labelle) VALUES
 ('photo'),

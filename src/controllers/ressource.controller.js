@@ -8,7 +8,7 @@ import {
     getAllFavorisByUserId,
     addConsult,
     addPoste,
-    addRessCat
+    testPoste
 } from "../models/ressource.model";
 
 export const getRessource = async (req, res) => {
@@ -96,5 +96,5 @@ export const getFavorisByUserId = async (req, res) => {
 export const addPosteController = async ({ title, categorie, newDocURL, type, description, privee, userID }) => {
     console.log({ title, categorie, newDocURL, type, description, privee, userID });
 
-    await addPoste({ title, categorie, newDocURL, type, description, privee, userID })
+    await addPoste({ title, categorie, newDocURL, type, description, privee, userID });
 }

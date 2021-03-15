@@ -18,7 +18,7 @@ con.connect(function (err) {
 export const getAllRessource = () => {
     return new Promise((resolve, reject) => {
         query(
-            `SELECT *,tr.labelle as type, c.labelle as categorie FROM ressource r inner join type_ressource tr on tr.id = r.id_type inner join ressource_categorie rc on rc.id_ressource = r.id inner join categorie c on c.id = rc.id_categorie ORDER BY r.id`,
+            `SELECT * FROM ressource ORDER BY id`,
             (error, result) => {
                 if (error) reject(error);
                 resolve(result);
@@ -34,22 +34,12 @@ export const addPoste = ({ title, categorie, newDocURL, type, description, prive
     return new Promise((resolve, reject) => {
         try {
             query(
-                `INSERT INTO ressource(titre, lien, date_envoie, id_type, id_compte, description, private)
-                VALUES ('${title}', '${newDocURL}', '${todayDate}', (select id from type_ressource where labelle ='${type}'),'${userID}', '${description}', ${privee})`,
+                `INSERT INTO ressource(titre, categorie, lien, date_envoie, id_type, id_compte, description, private)
+                VALUES ('${title}', '${categorie}', '${newDocURL}', '${todayDate}', (select id from type_ressource where labelle ='${type}'),'${userID}', '${description}', ${privee})`,
 
                 (error, result) => {
                     if (error) reject(error);
                     console.log("error 1", error);
-                }
-            );
-
-            query(
-                `INSERT INTO ressource_categorie(id_ressource,id_categorie) VALUES ((select MAX(id) from ressource),(select id from categorie where labelle = '${categorie}'))`,
-
-                (error, result) => {
-                    if (error) reject(error);
-                    console.log("error 2", error);
-                    resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
                 }
             );
 
@@ -66,7 +56,7 @@ export const addPoste = ({ title, categorie, newDocURL, type, description, prive
         try {
             query(
                 `INSERT INTO ressource_categorie(id_ressource,id_categorie) VALUES ((select MAX(id) from ressource),(select id from categorie where labelle = '${categorie}'))`,
-
+ 
                 (error, result) => {
                     if (error) reject(error);
                     console.log("error 2", error);
@@ -76,7 +66,7 @@ export const addPoste = ({ title, categorie, newDocURL, type, description, prive
         } catch (e) {
             console.log("SQL INSERT RESSOURCE ERROR: ", e)
         }
-
+ 
     });
 }; */
 
@@ -85,7 +75,7 @@ export const getRessourceWithId = async ({ id }) => {
     return new Promise((resolve, reject) => {
         try {
             query(
-                `SELECT r.*,c.labelle as categorie FROM ressource r inner join ressource_categorie rc on rc.id_ressource = r.id inner join categorie c on c.id = rc.id_categorie WHERE r.id = ${id}`,
+                `SELECT * FROM ressource WHERE id = '${id}`,
                 (error, result) => {
                     if (error) reject(error);
                     resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
