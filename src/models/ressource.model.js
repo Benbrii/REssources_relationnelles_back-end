@@ -18,7 +18,7 @@ con.connect(function (err) {
 export const getAllRessource = () => {
     return new Promise((resolve, reject) => {
         query(
-            `SELECT * FROM ressource ORDER BY id`,
+            `SELECT r.*, c.labelle as categorie FROM ressource r INNER JOIN categorie c on c.id = r.id_categorie ORDER BY id`,
             (error, result) => {
                 if (error) reject(error);
                 resolve(result);
@@ -34,8 +34,8 @@ export const addPoste = ({ title, categorie, newDocURL, type, description, prive
     return new Promise((resolve, reject) => {
         try {
             query(
-                `INSERT INTO ressource(titre, categorie, lien, date_envoie, id_type, id_compte, description, private)
-                VALUES ('${title}', '${categorie}', '${newDocURL}', '${todayDate}', (select id from type_ressource where labelle ='${type}'),'${userID}', '${description}', ${privee})`,
+                `INSERT INTO ressource(titre, id_categorie, lien, date_envoie, id_type, id_compte, description, private)
+                VALUES ('${title}', (select id from categorie where labelle = '${categorie}'), '${newDocURL}', '${todayDate}', (select id from type_ressource where labelle ='${type}'),'${userID}', '${description}', ${privee})`,
 
                 (error, result) => {
                     if (error) reject(error);
@@ -75,7 +75,7 @@ export const getRessourceWithId = async ({ id }) => {
     return new Promise((resolve, reject) => {
         try {
             query(
-                `SELECT * FROM ressource WHERE id = '${id}'`,
+                `SELECT r.*, c.labelle as categorie FROM ressource r INNER JOIN categorie c on c.id = r.id_categorie WHERE r.id = '${id}'`,
                 (error, result) => {
                     if (error) reject(error);
                     resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
@@ -91,7 +91,7 @@ export const getRessourceWithId = async ({ id }) => {
 export const getCommentWithRessourceId = async ({ id }) => {
     return new Promise((resolve, reject) => {
         query(
-            `SELECT * FROM commentaire WHERE id_ressource = ${id}`, (error, result) => {
+            `SELECT com.*,comp.pseudo as pseudo FROM commentaire com inner join compte comp on comp.id = com.id_compte WHERE id_ressource = ${id}`, (error, result) => {
                 if (error) reject(error);
 
                 resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
@@ -101,9 +101,10 @@ export const getCommentWithRessourceId = async ({ id }) => {
 };
 
 export const addConsult = async (idUser, idRessource, todayDate) => {
+    console.log(idUser, idRessource, todayDate);
     return new Promise((resolve, reject) => {
         query(
-            `INSERT INTO consult (id_compte, id_ressource,date_consult) VALUES ('${idUser}', '${idRessource}','${todayDate}')`, (error, result) => {
+            `INSERT INTO consult (id_compte, id_ressource, date_consult) VALUES ('${idUser}', '${idRessource}','${todayDate}')`, (error, result) => {
                 if (error) reject(error);
                 resolve();
             }

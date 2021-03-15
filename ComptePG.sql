@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS ressource(
 
    id SERIAL PRIMARY KEY,
    titre VARCHAR(250),
-   categorie VARCHAR(250),
+   id_categorie INT,
    lien VARCHAR(250) NULL,
    date_envoie date,
    id_type INT,
@@ -44,7 +44,8 @@ CREATE TABLE IF NOT EXISTS ressource(
    description TEXT NOT NULL,
    private INT NOT NULL,
    FOREIGN KEY (id_compte) REFERENCES compte(id),
-   FOREIGN KEY (id_type) REFERENCES type_ressource(id)
+   FOREIGN KEY (id_type) REFERENCES type_ressource(id),
+   FOREIGN KEY (id_categorie) REFERENCES categorie(id)
 );
 
 DROP TABLE IF EXISTS consult CASCADE;
