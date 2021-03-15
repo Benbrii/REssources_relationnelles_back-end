@@ -6,7 +6,7 @@ import cors from "cors";
 import _ from "lodash";
 import path from 'path';
 
-import { addPoste } from "./models/ressource.model";
+import { addPoste,addRessCat } from "./models/ressource.model";
 
 import { init, autorisation } from "./utils/auth";
 const cloudinary = require("cloudinary").v2;
@@ -82,18 +82,21 @@ app.post('/upload', upload.single('selectedFile'), (req, res) => {
     const DatauriParser = require("datauri/parser");
     const parser = new DatauriParser();
     // for getting the string from the file buffer
+    
     const file = parser.format(
         path.extname(req.file.originalname).toString(),
         req.file.buffer
     ).content;
 
-    const uniqueFilename = req.file.originalname;
+    let uniqueFilename = req.file.originalname;
     
     let { title, categorie, type, description, privee,userID } = req.body;
 
     let todayDate = new Date().toLocaleDateString("fr-FR");
-
+   
+    
     cloudinary.uploader.upload(
+        
         // file is required ofc
         file,
         // options here
@@ -108,7 +111,11 @@ app.post('/upload', upload.single('selectedFile'), (req, res) => {
             const newDocURL = file.secure_url;
             //const cloudID = file.public_id;
 
-            let poste = addPoste({ title, categorie, newDocURL, type, description, todayDate, privee, userID });
+            let poste = addPoste({ title,newDocURL, type, description, todayDate, privee, userID }).then(
+                (response) => {addRessCat(categorie,response.rows[0].id)}
+            ).catch((e) => {
+                console.log("APP ERROR",e)
+            });
             res.json(poste);
         }
     )

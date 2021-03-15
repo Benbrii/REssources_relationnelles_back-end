@@ -6,7 +6,8 @@ import {
     addRessourceToFavoris,
     removeRessourceFromFavoris,
     getAllFavorisByUserId,
-    addConsult
+    addConsult,
+    addPoste
 } from "../models/ressource.model";
 
 export const getRessource = async (req, res) => {
@@ -55,10 +56,7 @@ export const postComment = async (req, res) => {
         res.json(addcomment);
     }catch(e){
         console.log(e)
-    }
-  
-
-    
+    } 
 }
 
 export const addFavoris = async (req, res) => {
@@ -90,3 +88,21 @@ export const getFavorisByUserId = async (req, res) => {
     }
     
 }
+
+/*export const addPostConstroller = async ({ title, categorie, newDocURL, type, description, todayDate, privee, userID }) => {
+    try{
+        const poste = await addPoste({ title, categorie, newDocURL, type, description, todayDate, privee, userID });
+        res.json(poste);
+    } catch(e){
+        console.log(e)
+    }
+}
+
+export const addRessCat = async ({ categorie,idPost }) => {
+    try{
+        const ressCat = await addRessCat({ categorie,idPost });
+        res.json();
+    } catch(e){
+        console.log(e)
+    }
+}*/

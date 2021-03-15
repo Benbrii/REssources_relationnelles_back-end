@@ -22,35 +22,46 @@ export const getAllRessource = () => {
             (error, result) => {
                 if (error) reject(error);
                 resolve(result);
-                
             }
         );
     });
 };
 
-export const addPoste = ({ title, categorie, newDocURL, type, description, todayDate, privee,userID }) => {
+export const addPoste = ({ title, newDocURL, type, description, todayDate, privee,userID }) => {
     return new Promise((resolve, reject) => {
         try{
             query(
-                `INSERT INTO ressource(titre, lien, date_envoie, id_type, id_compte, description, private)
-                VALUES ('${title}', '${newDocURL}', '${todayDate}', (select id from type_ressource where labelle ='${type}'),'${userID}', '${description}', ${privee})`,
-                
+                `INSERT INTO ressource(id,titre, lien, date_envoie, id_type, id_compte, description, private)
+                VALUES (DEFAULT,'${title}', '${newDocURL}', '${todayDate}', (select id from type_ressource where labelle ='${type}'),'${userID}', '${description}', ${privee}) 
+                RETURNING id;`,
+               
                 (error, result) => {
                     if (error) reject(error);
                     console.log("error 1",error);
+                    resolve(result);
                 }
             );
 
+        }catch(e){
+            console.log("SQL INSERT RESSOURCE ERROR: ",e)
+        }
+        
+    });
+};
+
+export const addRessCat = (categorie,idPost) => {
+    console.log("addRessCat",categorie,idPost)
+    return new Promise((resolve, reject) => {
+        try{
             query(
-                `INSERT INTO ressource_categorie(id_ressource,id_categorie) VALUES ((select MAX(id) from ressource),(select id from categorie where labelle = '${categorie}'))`,
+                `INSERT INTO ressource_categorie(id_ressource,id_categorie) VALUES (${idPost},(select id from categorie where labelle = '${categorie}'))`,
                 
                 (error, result) => {
                     if (error) reject(error);
                     console.log("error 2",error);
-                    resolve(result.rows && result.rows.length === 0 ? [] : result.rows);
+                    resolve(result);
                 }
             );
-
         }catch(e){
             console.log("SQL INSERT RESSOURCE ERROR: ",e)
         }

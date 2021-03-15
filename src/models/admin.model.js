@@ -116,7 +116,7 @@ export const getStatConsultModel = (annee,categorie,type) => {
                         inner join type_ressource tr on tr.id = r.id_type
                         WHERE (SELECT date_part('year',co.date_consult)) = ${annee}`
         
-        if(categorie != "toute categories"){
+        if(categorie != "Toutes categories"){
             request = request + ` AND ca.labelle = '${categorie}'`
         }
 
@@ -149,7 +149,7 @@ export const getStatCreatModel = (annee,categorie,type) => {
                         inner join type_ressource tr on tr.id = r.id_type
                         WHERE (SELECT date_part('year',r.date_envoie)) = ${annee}`
         
-        if(categorie != "toute categories"){
+        if(categorie != "Toutes categories"){
             request = request + ` AND ca.labelle = '${categorie}'`
         }
 
