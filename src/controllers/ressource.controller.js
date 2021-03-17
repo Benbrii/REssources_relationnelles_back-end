@@ -7,43 +7,57 @@ import {
     removeRessourceFromFavoris,
     getAllFavorisByUserId,
     addConsult,
-    addPoste
+    getCategories
 } from "../models/ressource.model";
 
+
 export const getRessource = async (req, res) => {
-    try{
-        console.log("getRessource")
-        const ressources = await getAllRessource();
-        res.json(ressources);
-    }catch(e){
-        console.log(e)
-    }
     
+    let ressourcesTable=new Array();
+    
+    try{
+        const ressources = await getAllRessource();
+        
+        for(let i = 0;i < ressources.length;i++){
+            
+            const categories = await getCategories(ressources[i].id)
+            ressourcesTable[i]=new Array(ressources[i],categories.rows); 
+        }
+        console.table(ressourcesTable)
+        res.json(ressourcesTable);
+    
+    }catch(e){
+        console.log("ERROR getRessource: ",e)
+    }
 }
 
+
 export const getRessourceById = async (req, res) => {
-    console.log("getRessourceById")
-    const { id_user,id } = req.body;
+    const {id} = req.body
+
+    let ressourcesTable=new Array();
     try{
-        const dateNow = new Date().toLocaleDateString("fr-FR");
-        const ressource = await getRessourceWithId({ id });
-        const response = addConsult(id_user,id,dateNow);
-        res.json(ressource);
+        const ressources = await getRessourceWithId(id);
+        const categories = await getCategories(id)
+        
+        ressourcesTable[0]=new Array(ressources[0],categories.rows); 
+
+        console.table(ressourcesTable)
+        res.json(ressourcesTable);
+    
     }catch(e){
-        console.log(e)
+        console.log("ERROR getRessourceById: ",e)
     }
 }
 
 export const getCommentByRessourceId = async (req, res) => {
-    console.log("getCommentByRessourceId")
     const { id } = req.params;
     try{
-        const comments = await getCommentWithRessourceId({ id });
+        const comments = await getCommentWithRessourceId(id);
         res.json(comments);
     }catch(e){
-        console.log(e)
+        console.log("ERROR getCommentByRessourceId: ",e)
     }
-    
 }
 
 export const postComment = async (req, res) => {

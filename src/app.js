@@ -111,8 +111,11 @@ app.post('/upload', upload.single('selectedFile'), (req, res) => {
             const newDocURL = file.secure_url;
             //const cloudID = file.public_id;
 
+            const categories = categorie.split(',') 
+            console.log("APP",categories)
+
             let poste = addPoste({ title,newDocURL, type, description, todayDate, privee, userID }).then(
-                (response) => {addRessCat(categorie,response.rows[0].id)}
+                (response) => {addRessCat(categories,response.rows[0].id)}
             ).catch((e) => {
                 console.log("APP ERROR",e)
             });
