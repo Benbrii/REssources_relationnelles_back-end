@@ -111,11 +111,12 @@ export const getStatConsultModel = (annee, categorie, type) => {
         let request = `SELECT (SELECT date_part('month',co.date_consult)) AS mois, COUNT(*)
                         FROM consult co
                         inner join ressource r on co.id_ressource = r.id
-                        inner join categorie ca on ca.labelle = r.categorie
+                        inner join ressource_categorie rc on rc.id_ressource = r.id
+                        inner join categorie ca on ca.id = rc.id_categorie
                         inner join type_ressource tr on tr.id = r.id_type
                         WHERE (SELECT date_part('year',co.date_consult)) = ${annee}`
 
-        if (categorie != "toute categories") {
+        if (categorie != "Toutes categories") {
             request = request + ` AND ca.labelle = '${categorie}'`
         }
 
@@ -143,11 +144,12 @@ export const getStatCreatModel = (annee, categorie, type) => {
 
         let request = `SELECT (SELECT date_part('month',r.date_envoie)) AS mois, COUNT(*)
                         FROM ressource r
-                        inner join categorie ca on ca.labelle = r.categorie
+                        inner join ressource_categorie rc on rc.id_ressource = r.id
+                        inner join categorie ca on ca.id = rc.id_categorie
                         inner join type_ressource tr on tr.id = r.id_type
                         WHERE (SELECT date_part('year',r.date_envoie)) = ${annee}`
 
-        if (categorie != "toute categories") {
+        if (categorie != "Toutes categories") {
             request = request + ` AND ca.labelle = '${categorie}'`
         }
 

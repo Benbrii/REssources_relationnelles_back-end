@@ -7,45 +7,57 @@ import {
     removeRessourceFromFavoris,
     getAllFavorisByUserId,
     addConsult,
-    addPoste
+    getCategories
 } from "../models/ressource.model";
 
-export const getRessource = async (req, res) => {
-    try {
-        console.log("getRessource")
-        const ressources = await getAllRessource();
-        res.json(ressources);
-    } catch (e) {
-        console.log(e)
-    }
 
+export const getRessource = async (req, res) => {
+
+    let ressourcesTable = new Array();
+
+    try {
+        const ressources = await getAllRessource();
+
+        for (let i = 0; i < ressources.length; i++) {
+
+            const categories = await getCategories(ressources[i].id)
+            ressourcesTable[i] = new Array(ressources[i], categories.rows);
+        }
+        console.table(ressourcesTable)
+        res.json(ressourcesTable);
+
+    } catch (e) {
+        console.log("ERROR getRessource: ", e)
+    }
 }
 
+
 export const getRessourceById = async (req, res) => {
-    console.log("getRessourceById")
-    const { id_user, id } = req.body;
-    console.log(id, id_user);
+    const { id } = req.body
+
+    let ressourcesTable = new Array();
     try {
-        const dateNow = new Date().toLocaleDateString("fr-CA");
-        const ressource = await getRessourceWithId({ id });
-        const response = addConsult(id_user, id, dateNow);
-        res.json(ressource);
+        const ressources = await getRessourceWithId(id);
+        const categories = await getCategories(id)
+
+        ressourcesTable[0] = new Array(ressources[0], categories.rows);
+
+        console.table(ressourcesTable)
+        res.json(ressourcesTable);
+
     } catch (e) {
-        console.log(e)
+        console.log("ERROR getRessourceById: ", e)
     }
 }
 
 export const getCommentByRessourceId = async (req, res) => {
-    console.log("getCommentByRessourceId")
     const { id } = req.params;
-    console.log(id);
     try {
-        const comments = await getCommentWithRessourceId({ id });
+        const comments = await getCommentWithRessourceId(id);
         res.json(comments);
     } catch (e) {
-        console.log(e)
+        console.log("ERROR getCommentByRessourceId: ", e)
     }
-
 }
 
 export const postComment = async (req, res) => {
@@ -59,14 +71,12 @@ export const postComment = async (req, res) => {
     } catch (e) {
         console.log(e)
     }
-
-
-
 }
 
 export const addFavoris = async (req, res) => {
     const { id_user, idRessource } = req.body;
     console.log(id_user);
+    console.log(idRessource);
 
     const addfav = await addRessourceToFavoris({ id_user, idRessource });
     res.json(addfav);
@@ -94,8 +104,20 @@ export const getFavorisByUserId = async (req, res) => {
 
 }
 
-export const addPosteController = async ({ title, categorie, newDocURL, type, description, privee, userID }) => {
-    console.log({ title, categorie, newDocURL, type, description, privee, userID });
-
-    await addPoste({ title, categorie, newDocURL, type, description, privee, userID });
+/*export const addPostConstroller = async ({ title, categorie, newDocURL, type, description, todayDate, privee, userID }) => {
+    try{
+        const poste = await addPoste({ title, categorie, newDocURL, type, description, todayDate, privee, userID });
+        res.json(poste);
+    } catch(e){
+        console.log(e)
+    }
 }
+
+export const addRessCat = async ({ categorie,idPost }) => {
+    try{
+        const ressCat = await addRessCat({ categorie,idPost });
+        res.json();
+    } catch(e){
+        console.log(e)
+    }
+}*/
