@@ -10,7 +10,7 @@ d’échanges.
 
 <ul>
   
-  <li>Installez le back end : https://github.com/Benbrii/REssources_relationnelles_front-end.git </li>
+  <li>Installez le front end : https://github.com/Benbrii/REssources_relationnelles_front-end.git </li>
   <li>Installez git : https://git-scm.com/ </li>
   <li>Installez nodeJS : https://nodejs.org/fr/ </li>
   <li>Installez postgres : https://www.postgresql.org/ </li>
