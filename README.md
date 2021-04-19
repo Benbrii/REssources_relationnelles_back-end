@@ -10,7 +10,9 @@ d’échanges.
 
 <ul>
   <li>Installez git : https://git-scm.com/ </li>
+  <li>Installez nodeJS : https://nodejs.org/fr/ </li>
   <li>Installez postgres : https://www.postgresql.org/ </li>
+  
 </ul>
 
 <h2>Installation</h2>
@@ -37,5 +39,5 @@ Dans une invite de commande:
   <li>Ouvrez le logiciel PGadmin</li>
   <li>Crée une base de donnée et nommée la "ressources_relationnel </li>
   <li>Cliquez droit sur la nouvelle base donnée et selectionnez "Query tools" </li>
-  <li>copier collée le contenu du fichier ComptePG.sql: https://github.com/Benbrii/REssources_relationnelles_back-end/blob/main/ComptePG.sql </li>
+  <li>copier/coller le contenu du fichier ComptePG.sql: https://github.com/Benbrii/REssources_relationnelles_back-end/blob/main/ComptePG.sql </li>
 </ul>
