@@ -9,8 +9,8 @@ d’échanges.
 <h2>Préparation</h2>
 
 <ul>
-  <li>Installez git : <a>https://git-scm.com/</a></li>
-  <li>Installez postgres : <a>https://www.postgresql.org/</a></li>
+  <li>Installez git : https://git-scm.com/ </li>
+  <li>Installez postgres : https://www.postgresql.org/ </li>
 </ul>
 
 <h2>Installation</h2>
@@ -37,5 +37,5 @@ Dans une invite de commande:
   <li>Ouvrez le logiciel PGadmin</li>
   <li>Crée une base de donnée et nommée la "ressources_relationnel </li>
   <li>Cliquez droit sur la nouvelle base donnée et selectionnez "Query tools" </li>
-  <li>copier collée le contenu du fichier ComptePG.sql: <a>https://github.com/Benbrii/REssources_relationnelles_back-end/blob/main/ComptePG.sql</a> </li>
+  <li>copier collée le contenu du fichier ComptePG.sql: https://github.com/Benbrii/REssources_relationnelles_back-end/blob/main/ComptePG.sql </li>
 </ul>
