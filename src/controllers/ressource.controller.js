@@ -33,7 +33,8 @@ export const getRessource = async (req, res) => {
 
 
 export const getRessourceById = async (req, res) => {
-    const { id } = req.body
+    const { id } = req.body;
+    console.log("HERE RQ BODY", req.body);
 
     let ressourcesTable = new Array();
     try {

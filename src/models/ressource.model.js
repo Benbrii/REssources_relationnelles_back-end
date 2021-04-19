@@ -119,10 +119,9 @@ export const getCommentWithRessourceId = async (id) => {
 };
 
 export const addConsult = async (idUser, idRessource, todayDate) => {
-    console.log(idUser, idRessource, todayDate);
     return new Promise((resolve, reject) => {
         query(
-            `INSERT INTO consult (id_compte, id_ressource, date_consult) VALUES ('${idUser}', '${idRessource}','${todayDate}')`, (error, result) => {
+            `INSERT INTO consult (id_compte, id_ressource,date_consult) VALUES ('${idUser}', '${idRessource}','${todayDate}')`, (error, result) => {
                 if (error) reject(error);
                 resolve();
             }
