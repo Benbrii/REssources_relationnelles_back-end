@@ -9,68 +9,68 @@ export const connexion = async (req, res) => {
     let resultAccount = null
 
     // On verifie l'email
-    try{
+    try {
         resultAccount = await GetAccount({ email });
-    }catch(e){
-        console.log("GetAccount ERROR",e)
+    } catch (e) {
+        console.log("GetAccount ERROR", e)
     }
 
     if (resultAccount.length > 0) {
-        
-        if (resultAccount[0].active === true){
+
+        if (resultAccount[0].active === true) {
 
             // On verifie dans le mots de passe
             let comparePassword = null;
-            try{
+            try {
                 const passwordHash = resultAccount[0].motdepasse
 
-                if(password != null && passwordHash != null){
+                if (password != null && passwordHash != null) {
                     comparePassword = await ComparePassword({ password, passwordHash })
-                }else{
-                    res.status(401).json({  
+                } else {
+                    res.status(401).json({
                         message: "Veuillez entré un mots de passe"
                     })
                 }
-                
-            }catch(e){
-                console.log("ComparePassword ERROR",e)
+
+            } catch (e) {
+                console.log("ComparePassword ERROR", e)
             }
-            
-            if(comparePassword === true){
+
+            if (comparePassword === true) {
 
                 // On crée un token
                 try {
                     let accessToken = jwt.sign({ email: resultAccount[0].email, authlevel: resultAccount[0].id_role }, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256", expiresIn: 60 * 60 });
                     console.log("ACCESTOKEN:", accessToken);
 
-                // On met le token dans les cookies
-                res.cookie('authcookie', accessToken, { expires: new Date(new Date().getTime()+3600000), httpOnly: true });
+                    // On met le token dans les cookies
+                    res.cookie('authcookie', accessToken, { expires: new Date(new Date().getTime() + 3600000), httpOnly: true });
 
-                console.log("CONNECTION OK");
-                
-                res.status(200).json({ isLogged: true, user: resultAccount[0]});
-                
+                    console.log("CONNECTION OK");
+
+                    res.status(200).json({ isLogged: true, user: resultAccount[0] });
+
                 } catch (e) {
-                    console.log("Token and cookies error",e)
+                    console.log("Token and cookies error", e)
                 }
 
-            }else{
-                res.status(401).json({  
+            } else {
+                res.status(401).json({
                     message: "Le mots de passe est incorrect"
                 })
             }
-        }else{
+        } else {
 
-            res.status(401).json({  
+            res.status(401).json({
                 message: "Votre compte a était désactivé"
             })
         }
-        
+
     } else {
-        res.status(401).json({  
+        res.status(401).json({
             message: "L'email est incorrect"
         })
-       
+
     }
 }
 

@@ -5,6 +5,7 @@ import logger from "morgan";
 import cors from "cors";
 import _ from "lodash";
 import path from 'path';
+import session from "express-session";
 
 import { addPoste, addRessCat } from "./models/ressource.model";
 
@@ -56,7 +57,13 @@ app.use(
 );
 
 app.use(logger("dev"));
-app.set('trust proxy', 1)
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
