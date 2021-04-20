@@ -9,6 +9,7 @@ import {
     addConsult,
     getCategories
 } from "../models/ressource.model";
+import * as jwt from "jsonwebtoken";
 
 
 export const getRessource = async (req, res) => {
@@ -33,13 +34,26 @@ export const getRessource = async (req, res) => {
 
 
 export const getRessourceById = async (req, res) => {
-    const { id } = req.body;
-    console.log("HERE RQ BODY", req.body);
+    const { id } = req.body
+
+    let accessToken = req.signedCookies.authcookie
+    const token = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+
+    console.log("token", token)
+
+    const id_user = token.id
+
+    const date = new Date();
+
+    const todayDate = date.toLocaleDateString('fr-CA')
 
     let ressourcesTable = new Array();
+
     try {
         const ressources = await getRessourceWithId(id);
         const categories = await getCategories(id)
+
+        await addConsult(id_user, id, todayDate)
 
         ressourcesTable[0] = new Array(ressources[0], categories.rows);
 

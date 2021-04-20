@@ -39,7 +39,7 @@ export const connexion = async (req, res) => {
 
                 // On crée un token
                 try {
-                    let accessToken = jwt.sign({ email: resultAccount[0].email, authlevel: resultAccount[0].id_role }, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256", expiresIn: 60 * 60 });
+                    let accessToken = jwt.sign({ id: resultAccount[0].id, email: resultAccount[0].email, authlevel: resultAccount[0].id_role }, process.env.ACCESS_TOKEN_SECRET, { algorithm: "HS256", expiresIn: 60 * 60 });
                     console.log("ACCESTOKEN:", accessToken);
 
                     // On met le token dans les cookies
