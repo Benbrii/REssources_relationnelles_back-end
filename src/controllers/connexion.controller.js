@@ -1,6 +1,5 @@
 import { GetAccount } from "../models/user.model";
 import * as jwt from "jsonwebtoken";
-//import cookieParser from 'cookie-parser'
 import bcrypt from 'bcrypt';
 
 export const connexion = async (req, res) => {
@@ -44,7 +43,7 @@ export const connexion = async (req, res) => {
                     console.log("ACCESTOKEN:", accessToken);
 
                     // On met le token dans les cookies
-                    res.cookie('authcookie', accessToken, { expires: new Date(new Date().getTime() + 3600000), httpOnly: true, secure: true });
+                    res.cookie('authcookie', accessToken, { expires: new Date(new Date().getTime() + 3600000), httpOnly: true, secure: true, signed: true, secret: 'nice-Ressource' });
 
                     console.log("CONNECTION OK");
 
@@ -76,7 +75,7 @@ export const connexion = async (req, res) => {
 
 export const authControl = async (req, res) => {
 
-    let accessToken = req.cookies.authcookie
+    let accessToken = req.signedCookies.authcookie
     //if there is no token stored in cookies, the request is unauthorized
     if (!accessToken) {
         console.log("access token vide")
