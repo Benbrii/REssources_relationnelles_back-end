@@ -34,6 +34,7 @@ app.use(
             "https://ressourcesrelationnelles.netlify.app/ressource",
             "https://ressourcesrelationnelles.netlify.app/ressource/ressource",
             "https://ressourcesrelationnelles.netlify.app//ressource",
+            "https://ressourcesrelationnelles.netlify.app/connexion/authcontroll",
             "https://ressourcesrelationnelles.herokuapp.com",
             "https://ressourcesrelationnelles.herokuapp.com/register",
             "https://ressourcesrelationnelles.herokuapp.com/upload",
@@ -44,6 +45,7 @@ app.use(
             "https://ressourcesrelationnelles.herokuapp.com//ressource",
             "https://ressourcesrelationnelles.herokuapp.com//ressources",
             "https://ressourcesrelationnelles.herokuapp.com//ressources/ressource",
+            "https://ressourcesrelationnelles.herokuapp.com/connexion/authcontroll",
         ],
         allowedHeaders: [
             "Content-Type",
