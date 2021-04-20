@@ -76,8 +76,10 @@ export const connexion = async (req, res) => {
 export const authControl = async (req, res) => {
 
     let accessToken = req.signedCookies.authcookie
+    console.log(accessToken);
     //if there is no token stored in cookies, the request is unauthorized
-    if (!accessToken) {
+
+    /*if (!accessToken) {
         console.log("access token vide")
         return res.status(401).json({
             message: 'Login Failed',
@@ -95,6 +97,19 @@ export const authControl = async (req, res) => {
         console.log("CLEAR DISCONNECT")
         res.status(401).json({
             islogged: false
+        });
+    }*/
+    if (!accessToken) {
+        console.log("Token empty")
+        res.status(401).json({
+            islogged: false
+        });
+    } else {
+        jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+        console.log("TOKEN OK")
+        res.status(200).json({
+            message: 'Login Successful',
+            islogged: true
         });
     }
 }

@@ -5,7 +5,6 @@ import logger from "morgan";
 import cors from "cors";
 import _ from "lodash";
 import path from 'path';
-import session from "express-session";
 
 import { addPoste, addRessCat } from "./models/ressource.model";
 
@@ -22,6 +21,7 @@ app.use(
     cors({
         origin: [
             "http://localhost:3000",
+            "http://localhost:5000",
             "http://localhost:3000/ressource",
             "http://localhost:3000/ressource/ressource",
             "http://localhost:3000/upload",
@@ -59,13 +59,6 @@ app.use(
 );
 
 app.use(logger("dev"));
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
-}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser('nice-Ressource'));
